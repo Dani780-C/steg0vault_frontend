@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-card-body">
+                <div class="header-item">
+                    <section [ngSwitch]="status">
+                        <fa-icon *ngSwitchCase="'pressed'" class="fa-solid fa-spinner fa-spin fa-3x"></fa-icon>
+                        <fa-icon *ngSwitchCase="'success'" class="fa-solid fa-check fa-beat fa-3x"></fa-icon>
+                        <fa-icon *ngSwitchCase="'fail'" class="fa-solid fa-xmark fa-3x"></fa-icon>
+                        <fa-icon *ngSwitchDefault class="fa-solid fa-user fa-3x"></fa-icon>
+                    </section>
+                </div>
+                <div class="header-item">
+                    <h2>Welcome</h2>
+                </div>
+                <p class="info-message">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please enter your login
+                    details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <label for="email">Email</label>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Email" class="form-control" formControlName="email"
+                            name="email" />
+                        <small *ngIf="email.invalid && (email.dirty || email.touched)" class="block p-error">
+                            <div *ngIf="email.errors?.['required']">Email is required</div>
+                            <div *ngIf="email.errors?.['email']">Email should be valid</div>
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Password" class="form-control"
+                            formControlName="password" name="password" />
+                        <small *ngIf="password.invalid && (password.dirty || password.touched)" class="block p-error">
+                            <div *ngIf="password.errors?.['required']">Password is required</div>
+                        </small>
+                    </div>
+                    <input type="submit" class="login-button" value="Login" [disabled]="loginForm.invalid">
+                </form>
+            </div>
+            <div class="login-card-footer">
+                <small><a routerLink="../register">Create account</a></small>
+                <small><a routerLink="../forgot-password">Forgot Password</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast 
+    [showTransformOptions]="'translateY(100%)'" 
+    [showTransitionOptions]="'500ms'" 
+    [hideTransitionOptions]="'1000ms'" 
+    [showTransformOptions]="'translateX(100%)'"
+    [life]="5000">
+</p-toast>

@@ -1,0 +1,37 @@
+.container {
+    // height: 100vh;
+    .not-found-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 20vh;
+        .not-found-container-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .box {
+                h2 {
+                    text-align: center;
+                }
+                .error-details {
+                    text-align: center;
+                }
+                .error-action {
+                    display: flex;
+                    justify-content: center;
+                    .button {
+                        text-align: center;
+                        margin-top: 16px;
+                        margin-bottom: 16px;
+                        width: 20%;
+                        height: 5vh;
+                        background-color:slateblue;
+                        border-radius: 5px;
+                        color: white;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+
+<div class="container-dialog">
+    <div class="resource">
+        <img [src]='this.result.imageBytes' alt="Image">
+    </div>
+    <div class="info">
+        <div class="name">
+            <p>Resource name: {{this.result.name}}</p>
+        </div>
+        <div class="algorithm">
+            <p>Algorithm: {{this.result.algorithm}}</p>
+        </div>
+        <div class="secret-box">
+            <!-- <p>Secret: </p> -->
+            <label for="secret">Embedded secret:</label>
+            <textarea id="secret" cols="" rows="" aria-readonly="true" disabled>{{this.result.secretToEmbed}}</textarea>
+        </div>
+    </div>
+</div>

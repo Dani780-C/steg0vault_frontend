@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+// @import "bootstrap/scss/bootstrap";
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+	// background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+    background-color: rgb(255, 255, 255);
+
+    // background: linear-gradient(244deg, #411ed2, #2b0ab7, #4415a5, #2e1c54);
+    // background-size: 800% 800%;
+
+    // animation: AnimationName 13s ease infinite;
+}
+
+// @keyframes AnimationName {
+//     0%{background-position:0% 72%}
+//     50%{background-position:100% 29%}
+//     100%{background-position:0% 72%}
+// }
+
+.mat-horizontal-stepper-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+    .mat-horizontal-content-container {
+        width: 100% !important;
+        height: 100% !important;
+        
+        .mat-horizontal-stepper-content:not(.mat-horizontal-stepper-content-inactive) {
+            width: 100% !important;
+            height: 100% !important;        
+            form {
+                width: 100% !important;
+                height: 100% !important;        
+            }
+        }
+    }
+}
