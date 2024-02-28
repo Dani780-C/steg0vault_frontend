@@ -36,6 +36,8 @@ export class UserService {
     return this.httpClient.get(USER_API + 'collection/' + collectionName, this.httpOptions );
   }
 
+  
+
   getAllCollections(): Observable<any> {
     // console.log("Get all collections");
     // console.log(this.storageService.getToken());

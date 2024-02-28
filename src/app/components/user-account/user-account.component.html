@@ -1,162 +1,172 @@
 <div class="container-functions">
     <div class="header">
         <div class="logo">
-            <img src="../../assets/logo.png" alt="Logo image">
+            <img src="../../assets/logo-6.png" alt="Logo image">
         </div>
         <div class="action-list">
             <div class="action">
-                <button mat-raised-button [matMenuTriggerFor]="belowMenu">Collections<mat-icon>collections</mat-icon></button>
-                <mat-menu #belowMenu="matMenu" yPosition="below">
-                    <!-- <button mat-menu-item>All collections</button> -->
-                    <button mat-menu-item *ngFor="let collectionResource of collectionResources" (click)="selectCollectionToDisplay(collectionResource)">{{collectionResource.collectionDTO.name}}</button>
-                </mat-menu>
+                <button mat-raised-button (click)="addResource()" style="background-color: #6d1d7b; color: #ffffff;">Upload & embed<mat-icon>add_circle_outline</mat-icon></button>
             </div>
+            
             <div class="action">
-                <button mat-raised-button (click)="addResource()">Upload & embed<mat-icon>add_circle_outline</mat-icon></button>
-            </div>
-            <div class="action">
-                <button mat-fab matTooltip="Primary" #tooltip="matTooltip"
-                matTooltip="Account"
-                matTooltipPosition="left" color="primary" aria-label="Example fab with a heart icon" [matMenuTriggerFor]="belowMenuForAccountButton">
-                    <mat-icon>account_circle</mat-icon>
-                </button>
-                <mat-menu #belowMenuForAccountButton="matMenu" yPosition="below">
-                    <div class="user-info" style="padding: 10px; border-bottom-style: solid; border-bottom-color: slateblue;">
-                        <div class="user-name" style="display: flex; flex-direction: row; margin-bottom: 10px;">
-                            <i class="fa-solid fa-user fa-2x" style="padding-right: 10px;"></i>
-                            <p style="margin: 4px 0 0 0; width: 100%; text-align: left;">Daniel Cirlan</p>
-                        </div>
-                        <!-- <p class="user-email" style="margin: 0;"><i class="fa-solid fa-at fa-2x"></i>danielcirlan22@gmail.com</p> -->
-                        <div class="user-email" style="display: flex; flex-direction: row; margin-bottom: 10px;">
-                            <i class="fa-solid fa-at fa-2x" style="padding-right: 10px;"></i>
-                            <p style="margin: 4px 0 0 0; width: 100%; text-align: left;">danielcirlan22@gmail.com</p>
-                        </div>
+                <div class="user-box" style="display: flex; flex-direction: row; padding: 0.1rem 0.1rem 0.1rem 1rem; border-radius: 25px 50px 50px 25px; border-style: solid; border-color: #6d1d7b;">
+                    <div class="user" style="color: #c2bcd2; text-align: center; align-self: center; margin: 0;">
+                        <p style="margin: 0; padding-right: 1rem; font-size: larger;">Daniel Cirlan</p>
                     </div>
-                    <button mat-menu-item (click)="logout()">
-                        <!-- <i class="fa-solid fa-right-from-bracket fa-2x" style="color: #ff0000; padding-right: 10px;"></i> -->
-                        <div style="display: flex; flex-direction: row;">
-                            <i class="fa-solid fa-right-from-bracket fa-2x" style="color: #ff0000; padding-right: 10px;"></i>
-                            <p style="width: 100%; margin: 4px 0 0 0; color: red; text-align: center;">Logout</p>
-                        </div>
+                    <button mat-fab matTooltip="Primary" #tooltip="matTooltip"
+                        matTooltip="Account"
+                        matTooltipPosition="below" color="primary" aria-label="Example fab with a heart icon" [matMenuTriggerFor]="belowMenuForAccountButton"
+                        style="background-color: #6d1d7b;"
+                        >
+                        <mat-icon>account_circle</mat-icon>
                     </button>
-                </mat-menu>
+                    <mat-menu #belowMenuForAccountButton="matMenu" yPosition="below">
+                        <div class="user-info" style="padding: 10px; border-bottom-style: solid; border-bottom-color: slateblue;">
+                            <div class="user-name" style="display: flex; flex-direction: row; margin-bottom: 10px;">
+                                <i class="fa-solid fa-user fa-2x" style="padding-right: 10px;"></i>
+                                <p style="margin: 4px 0 0 0; width: 100%; text-align: left;">Daniel Cirlan</p>
+                            </div>
+                            <div class="user-email" style="display: flex; flex-direction: row; margin-bottom: 10px;">
+                                <i class="fa-solid fa-at fa-2x" style="padding-right: 10px;"></i>
+                                <p style="margin: 4px 0 0 0; width: 100%; text-align: left;">danielcirlan22@gmail.com</p>
+                            </div>
+                        </div>
+                        <button mat-menu-item (click)="logout()">
+                            <div style="display: flex; flex-direction: row;">
+                                <i class="fa-solid fa-right-from-bracket fa-2x" style="color: #ff0000; padding-right: 10px;"></i>
+                                <p style="width: 100%; margin: 4px 0 0 0; color: red; text-align: center;">Logout</p>
+                            </div>
+                        </button>
+                    </mat-menu>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!-- <img *ngFor="let resource of resources" [src]="resource.imageBytes" class="img-fluid" alt="Image"> -->
-<div class="collections">
-    <div class="collection-container">
-        <div class="collection-header">
-            <p class="collection-name">{{currentCollection.name}}</p>
-            <button mat-mini-fab #tooltip="matTooltip"
-            matTooltip="Edit collection"
-            color="primary" class="edit-collection-button" (click)="addResource()"><mat-icon>edit</mat-icon></button>
-            <button mat-mini-fab #tooltip="matTooltip"
-            matTooltip="Delete collection"
-            color="warn" class="delete-collection-button" (click)="addResource()"><mat-icon>delete</mat-icon></button>
-        </div>
-        <div class="collection-description">
-            <p *ngIf="this.currentCollection.description !== ''" class="card-description">{{currentCollection.description}}</p>
-            <p *ngIf="this.currentCollection.description === ''" class="card-description">No description</p>                                    
-        </div>
-        <div class="container-xl">
-            <div class="row">
-                <div class="col-md-10 mx-auto">
-                    <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0">
-                        
-                        <div class="carousel-indicators">
-                            <div data-target="#carousel" data-slide-to=0 class="active"></div>
-                            <div data-target="#carousel" attr.data-slide-to={{number}} *ngFor="let number of numberOfSlides"></div>
-                        </div>
-                        
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="row">
-                                    <div class="col-sm-4" *ngFor="let index of matrix[0]">
-                                        <div class="thumb-wrapper">
-                                            <div class="img-box">
-                                                <img [src]='this.resources[index].imageBytes' class="img-fluid" alt="Image">
-                                            </div>
-                                            <div class="thumb-content">
-                                                <div class="name-and-fav">
-                                                    <h4>{{this.resources[index].name}}</h4>
-                                                    <button mat-icon-button #tooltip="matTooltip"
+<div class="container">
+    <div class="side-nav-bar">
+        <p> Collections </p>
+        <aside>
+            <div *ngFor="let coll of collectionResources">
+                <div class="collName" (click)="selectCollectionToDisplay(coll)" *ngIf="coll.collectionDTO.name === currentCollection.name" style="background-color: #B197FC; border-top-left-radius: 20px; border-bottom-left-radius: 20px; color: black;">
+                    {{coll.collectionDTO.name}}
+                </div>
+                <div class="collName" (click)="selectCollectionToDisplay(coll)" *ngIf="coll.collectionDTO.name !== currentCollection.name">
+                    {{coll.collectionDTO.name}}
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <div class="collections">
+        <div class="collection-container">
+            <div class="collection-header">
+                <p class="collection-name">{{currentCollection.name}}</p>
+                <button #tooltip="matTooltip"
+                matTooltip="Edit collection" class="edit-collection-button" (click)="addResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen" style="color: #B197FC;"></i></button>
+                <button #tooltip="matTooltip"
+                matTooltip="Delete collection" class="delete-collection-button" (click)="addResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash" style="color: #9c5e5e;"></i></button>
+            </div>
+            <div class="collection-description">
+                <p *ngIf="this.currentCollection.description !== ''" class="card-description">{{currentCollection.description}}</p>
+                <p *ngIf="this.currentCollection.description === ''" class="card-description">No description</p>                                    
+            </div>
+            <div class="container-xl">
+                <div class="row" style="width: 100%;">
+                    <div class="col-md-10" style="margin: 0; width: 100%;">
+                        <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0">
+                            
+                            <div class="carousel-indicators">
+                                <div data-target="#carousel" data-slide-to=0 class="active"></div>
+                                <div data-target="#carousel" attr.data-slide-to={{number}} *ngFor="let number of numberOfSlides"></div>
+                            </div>
+                            
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-sm-4" *ngFor="let index of matrix[0]">
+                                            <div class="thumb-wrapper">
+                                                <div class="img-box">
+                                                    <img [src]='this.resources[index].imageBytes' class="img-fluid" alt="Image">
+                                                </div>
+                                                <div class="thumb-content">
+                                                    <div class="name-and-fav">
+                                                        <h4>{{this.resources[index].name}}</h4>
+                                                        <button (click)="addResource()" style="background-color: inherit; border: none; margin: 0;">
+                                                            <i #tooltip="matTooltip"
+                                                            matTooltip="Unsave"
+                                                            matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
+                                                            <i #tooltip="matTooltip"
                                                             matTooltip="Save"
-                                                            matTooltipPosition="left" color="null" class="favorite-button" 
-                                                            (click)="addResource()">
-                                                        <mat-icon *ngIf="this.resources[index].saved" class="fav">star</mat-icon>
-                                                        <mat-icon *ngIf="!this.resources[index].saved" class="fav">star_border</mat-icon>
-                                                    </button>
+                                                            matTooltipPosition="left" *ngIf="!this.resources[index].saved" class="fa-regular fa-bookmark fa-2x" style="color: #adaca9;"></i>
+                                                        </button>
+                                                    </div>
+                                                    <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description}}</p>
+                                                    <p *ngIf="this.resources[index].description === ''" class="card-description">No description</p>
+                                                    <div class="resource-buttons">
+                                                        <button mat-mini-fab #tooltip="matTooltip"
+                                                        matTooltip="Extract key"
+                                                        color="primary" class="resource-button" style="width: 35%; border-radius: 5px; background-color: #6d1d7b;" (click)="extractKey(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>vpn_key</mat-icon><p style="margin: 0; padding: 0 0 0 10px; font-weight: bold; align-content: center;">Extract</p></button>
+                                                        <button #tooltip="matTooltip"
+                                                        matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
+                                                        <button #tooltip="matTooltip"
+                                                        matTooltip="Delete resource" class="resource-button" (click)="addResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
+                                                    </div>
+                                                </div>						
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item" *ngFor="let number of numberOfSlides">
+                                    <div class="row">
+                                        <div class="col-sm-4" *ngFor="let index of matrix[number]">
+                                            <div class="thumb-wrapper">
+                                                <div class="img-box">
+                                                    <img src={{this.resources[index].imageBytes}} class="img-fluid" alt="Image">
                                                 </div>
-                                                <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description}}</p>
-                                                <p *ngIf="this.resources[index].description === ''" class="card-description">No description</p>
-                                                <div class="resource-buttons">
-                                                    <button mat-mini-fab #tooltip="matTooltip"
-                                                    matTooltip="Extract key"
-                                                    color="primary" class="resource-button" style="width: 35%; border-radius: 5px;" (click)="extractKey(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>vpn_key</mat-icon><p style="margin: 0; padding: 0 0 0 10px; font-weight: bold; align-content: center;">Extract</p></button>
-                                                    <button mat-mini-fab #tooltip="matTooltip"
-                                                    matTooltip="Edit resource"
-                                                    color="primary" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>edit</mat-icon></button>
-                                                    <button mat-mini-fab #tooltip="matTooltip"
-                                                    matTooltip="Delete resource"
-                                                    color="warn" class="resource-button" (click)="addResource()"><mat-icon>delete</mat-icon></button>
-                                                </div>
-                                            </div>						
+                                                <div class="thumb-content">
+                                                    <div class="name-and-fav">
+                                                        <h4>{{this.resources[index].name}}</h4>
+                                                        <button (click)="addResource()" style="background-color: inherit; border: none; margin: 0;">
+                                                            <i #tooltip="matTooltip"
+                                                            matTooltip="Unsave"
+                                                            matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
+                                                            <i #tooltip="matTooltip"
+                                                            matTooltip="Save"
+                                                            matTooltipPosition="left" *ngIf="!this.resources[index].saved" class="fa-regular fa-bookmark fa-2x" style="color: #adaca9;"></i>
+                                                        </button>
+                                                    </div>
+                                                    <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description}}</p>
+                                                    <p *ngIf="this.resources[index].description === ''" class="card-description">No description</p>
+                                                    <div class="resource-buttons">
+                                                        <button mat-mini-fab #tooltip="matTooltip"
+                                                        matTooltip="Extract key"
+                                                        color="primary" class="resource-button" style="width: 35%; border-radius: 5px; background-color: #6d1d7b;" (click)="extractKey(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>vpn_key</mat-icon><p style="margin: 0; padding: 0 0 0 10px; font-weight: bold; align-content: center;">Extract</p></button>
+                                                        <button #tooltip="matTooltip"
+                                                        matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
+                                                        <button #tooltip="matTooltip"
+                                                        matTooltip="Delete resource" class="resource-button" (click)="addResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
+                                                    </div>
+                                                </div>						
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="carousel-item" *ngFor="let number of numberOfSlides">
-                                <div class="row">
-                                    <div class="col-sm-4" *ngFor="let index of matrix[number]">
-                                        <div class="thumb-wrapper">
-                                            <div class="img-box">
-                                                <img src={{this.resources[index].imageBytes}} class="img-fluid" alt="Image">
-                                            </div>
-                                            <div class="thumb-content">
-                                                <div class="name-and-fav">
-                                                    <h4>{{this.resources[index].name}}</h4>
-                                                    <button mat-icon-button #tooltip="matTooltip"
-                                                            matTooltip="Save"
-                                                            matTooltipPosition="left" color="null" 
-                                                            class="favorite-button" 
-                                                            (click)="addResource()">
-                                                        <mat-icon *ngIf="this.resources[index].saved" class="fav">star</mat-icon>
-                                                        <mat-icon *ngIf="!this.resources[index].saved" class="fav">star_border</mat-icon>
-                                                    </button>
-                                                </div>
-                                                <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description}}</p>
-                                                <p *ngIf="this.resources[index].description === ''" class="card-description">No description</p>
-                                                <div class="resource-buttons">
-                                                    <button mat-mini-fab #tooltip="matTooltip"
-                                                    matTooltip="Extract key"
-                                                    color="primary" class="resource-button" style="width: 35%; border-radius: 5px;" (click)="extractKey(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>vpn_key</mat-icon><p style="margin: 0; padding: 0 0 0 10px; font-weight: bold; align-content: center;">Extract</p></button>
-                                                    <button mat-mini-fab #tooltip="matTooltip"
-                                                    matTooltip="Edit resource"
-                                                    color="primary" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>edit</mat-icon></button>
-                                                    <button mat-mini-fab #tooltip="matTooltip"
-                                                    matTooltip="Delete resource"
-                                                    color="warn" class="resource-button" (click)="addResource()"><mat-icon>delete</mat-icon></button>
-                                                </div>
-                                            </div>						
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        
+                            <a *ngIf="resources.length > 3" class="carousel-control-prev" href="#carousel" data-slide="prev" style="border: none;">
+                                <i class="fa-solid fa-angle-left" style="color: #c2bcd2;"></i>
+                            </a>
+                            <a *ngIf="resources.length > 3" class="carousel-control-next" href="#carousel" data-slide="next" style="border: none;">
+                                <i class="fa-solid fa-angle-right" style="color: #c2bcd2;"></i>
+                            </a>
                         </div>
-                    
-                        <a class="carousel-control-prev" href="#carousel" data-slide="prev">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
-                        <a class="carousel-control-next" href="#carousel" data-slide="next">
-                            <i class="fa fa-angle-right"></i>
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
 
 

@@ -14,10 +14,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { ExtractKeyComponent } from './components/extract-key/extract-key.component';
 import { EditResourceComponent } from './components/edit-resource/edit-resource.component';
 import { EditResourceModule } from './components/edit-resource/edit-resource.module';
+import { EditCollectionComponent } from './components/edit-collection/edit-collection.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EditCollectionComponent
   ],
   imports: [
     BrowserModule,
