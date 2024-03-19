@@ -27,6 +27,7 @@ export class UserAccountComponent implements OnInit {
     name: '',
     description: ''
   };
+  email: string | null = "";
 
   numberOfSlides: number[] = new Array();
   matrix: number[][]= [];
@@ -42,6 +43,7 @@ export class UserAccountComponent implements OnInit {
 
   ngOnInit() {
     this.getAllCollections();
+    this.email = this.storageService.getCurrentlyLoggedUserEmail();
   }
 
   getCollection(collection: Collection) {
@@ -135,6 +137,7 @@ export class UserAccountComponent implements OnInit {
 
   logout(): void {
     this.storageService.removeToken();
+    this.storageService.removeEmail();
     this.router.navigate(['/login']);
   }
 

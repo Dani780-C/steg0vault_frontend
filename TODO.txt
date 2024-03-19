@@ -1,4 +1,0 @@
-1. imaginea sa isi pastreze proportiile sale
-2. schimba buttoanele din angular material
-3. side nav bar-ul sa fie pana jos
-4. culori mai ok

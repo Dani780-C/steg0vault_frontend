@@ -7,7 +7,7 @@
             <div class="first-step-container">
               <label class="custom-file-upload" *ngIf="!file">
                 <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
-                <i class="fa-solid fa-file-arrow-up fa-4x"></i>Upload file (PNG, JPG or JPEG)
+                <i class="fa-solid fa-file-arrow-up fa-4x"></i>Upload file (BMP, PNG, PPM, PNM, TIF, TIFF)
               </label>
 
               <label class="custom-file-upload" *ngIf="file && !acceptableFileType()" style="background-color: rgb(132, 123, 185);">
@@ -17,7 +17,7 @@
               
               <label class="custom-file-upload" *ngIf="file && acceptableFileType()" style="background-color: rgb(193, 116, 116);">
                 <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
-                <i class="fa-solid fa-circle-exclamation fa-4x"></i>Not acceptable file type
+                <i class="fa-solid fa-circle-exclamation fa-4x"></i>File type not supported
               </label>
               
               <div *ngIf="file" class="file-info-box">
@@ -48,7 +48,7 @@
                   <button id="selectCollectionButton" mat-raised-button [matMenuTriggerFor]="collectionMenu" *ngIf="collection.value !== ''">{{collection.value}}<mat-icon>collections</mat-icon></button>
                   <mat-menu #collectionMenu="matMenu">
                     <button mat-menu-item *ngFor="let collectionResource of collectionResources" (click)="setCollection(collectionResource.collectionDTO.name)">{{collectionResource.collectionDTO.name}}</button>
-                    <button mat-menu-item (click)="createCollection()">Create new collection</button>
+                    <button mat-menu-item (click)="createCollection()" style="background-color: rgb(196, 169, 221);">Create new collection</button>
                   </mat-menu>
                 </div>
                 <div *ngIf="createCollectionBoolean === true" class="create-collection">

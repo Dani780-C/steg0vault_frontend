@@ -33,7 +33,7 @@ export class UserService {
         }
       )
     }; 
-    return this.httpClient.get(USER_API + 'collection/' + collectionName, this.httpOptions );
+    return this.httpClient.get(USER_API + 'collection/?collectionName=' + encodeURIComponent(collectionName || "null"), this.httpOptions );
   }
 
   
@@ -73,7 +73,7 @@ export class UserService {
         }
       )
     }; 
-    return this.httpClient.get(USER_API + 'get-resource/' + collectionName + '/' + resourceName, this.httpOptions);
+    return this.httpClient.get(USER_API + 'get-resource/?collectionName=' + encodeURIComponent(collectionName) + '&' + "resourceName=" + encodeURIComponent(resourceName), this.httpOptions);
   }
 
   getResourceInfo(resourceName: string, collectionName: string): Observable<any> {
@@ -85,7 +85,7 @@ export class UserService {
         }
       )
     }; 
-    return this.httpClient.get(USER_API + 'get-resource-info/' + collectionName + '/' + resourceName, this.httpOptions);
+    return this.httpClient.get(USER_API + 'get-resource-info/?collectionName=' + encodeURIComponent(collectionName) + '&resourceName=' + encodeURIComponent(resourceName), this.httpOptions);
   }
 
 }

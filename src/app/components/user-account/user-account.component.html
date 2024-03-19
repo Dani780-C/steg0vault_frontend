@@ -11,7 +11,7 @@
             <div class="action">
                 <div class="user-box" style="display: flex; flex-direction: row; padding: 0.1rem 0.1rem 0.1rem 1rem; border-radius: 25px 50px 50px 25px; border-style: solid; border-color: #6d1d7b;">
                     <div class="user" style="color: #c2bcd2; text-align: center; align-self: center; margin: 0;">
-                        <p style="margin: 0; padding-right: 1rem; font-size: larger;">Daniel Cirlan</p>
+                        <p style="margin: 0; padding-right: 1rem; font-size: larger;">{{email}}</p>
                     </div>
                     <button mat-fab matTooltip="Primary" #tooltip="matTooltip"
                         matTooltip="Account"
@@ -21,16 +21,16 @@
                         <mat-icon>account_circle</mat-icon>
                     </button>
                     <mat-menu #belowMenuForAccountButton="matMenu" yPosition="below">
-                        <div class="user-info" style="padding: 10px; border-bottom-style: solid; border-bottom-color: slateblue;">
+                        <!-- <div class="user-info" style="padding: 10px; border-bottom-style: solid; border-bottom-color: slateblue;">
                             <div class="user-name" style="display: flex; flex-direction: row; margin-bottom: 10px;">
                                 <i class="fa-solid fa-user fa-2x" style="padding-right: 10px;"></i>
                                 <p style="margin: 4px 0 0 0; width: 100%; text-align: left;">Daniel Cirlan</p>
                             </div>
                             <div class="user-email" style="display: flex; flex-direction: row; margin-bottom: 10px;">
                                 <i class="fa-solid fa-at fa-2x" style="padding-right: 10px;"></i>
-                                <p style="margin: 4px 0 0 0; width: 100%; text-align: left;">danielcirlan22@gmail.com</p>
+                                <p style="margin: 4px 0 0 0; width: 100%; text-align: left;">{{email}}</p>
                             </div>
-                        </div>
+                        </div> -->
                         <button mat-menu-item (click)="logout()">
                             <div style="display: flex; flex-direction: row;">
                                 <i class="fa-solid fa-right-from-bracket fa-2x" style="color: #ff0000; padding-right: 10px;"></i>

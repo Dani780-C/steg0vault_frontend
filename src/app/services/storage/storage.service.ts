@@ -19,4 +19,27 @@ export class StorageService {
     localStorage.removeItem('token');
   }
 
+  setCurrentlyLoggedUsername(user: string) {
+    localStorage.setItem("name", user);
+  }
+
+  setCurrentlyLoggedUserEmail(mail: string | null) {
+    if(mail === null)
+      localStorage.setItem("mail", "unknown");
+    else
+    localStorage.setItem("mail", mail);
+  }
+
+  getCurrentlyLoggedUsername() : string | null {
+    return localStorage.getItem("name");
+  }
+
+  getCurrentlyLoggedUserEmail() : string | null {
+    return localStorage.getItem("mail");
+  }
+
+  removeEmail() {
+    localStorage.removeItem('mail');
+  }
+
 }

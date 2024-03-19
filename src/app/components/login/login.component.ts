@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
         next: result => {
           this.status = 'success';
           this.storageService.setToken('token', result['token'] as string);
+          this.storageService.setCurrentlyLoggedUserEmail(this.loginForm.controls['email'].value);
           this.router.navigate(['/home']);
         },
         error: error => {

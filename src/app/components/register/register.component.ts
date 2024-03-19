@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { MessageService } from 'primeng/api';
 import { USER_ALREADY_EXISTS_ERROR_CODE } from 'src/app/constants/constants';
 import { StorageService } from 'src/app/services/storage/storage.service';
@@ -40,6 +39,7 @@ export class RegisterComponent {
         next: result => {
           this.status = "success";
           this.storageService.setToken('token', result['token'] as string);
+          this.storageService.setCurrentlyLoggedUserEmail(this.email.value);
           this.router.navigate(['/home']);
         },
         error: error => {
