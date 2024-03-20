@@ -4,9 +4,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { throwError} from 'rxjs';
 import { FILE_TYPES } from 'src/app/constants/constants';
 import { CollectionResources } from 'src/app/interfaces/collection-resources';
-import { PostResource } from 'src/app/interfaces/post-resource';
-import { UserService } from 'src/app/services/user/user.service'
+import { PostResource } from 'src/app/interfaces/post-resource'
 import { UserAccountComponent } from '../user-account/user-account.component';
+import { ResourceService } from 'src/app/services/resource/resource.service';
 
 @Component({
   selector: 'app-upload-resource-dialog',
@@ -16,7 +16,7 @@ import { UserAccountComponent } from '../user-account/user-account.component';
 export class UploadResourceDialogComponent implements OnInit {
   
   collectionResources: CollectionResources[] = new Array();
-  algorithms: string[] = new Array('A_TYPE1', 'A_TYPE2', 'A_TYPE3', 'A_TYPE4');
+  algorithms: string[] = new Array('LSB_REPLACEMENT', 'LSB_MATCHING', 'LSB_MATCHING_REVISITED');
   status: "initial" | "uploading" | "success" | "fail" = "initial";
   file: File | null = null;
   myimage: string = '';
@@ -37,16 +37,14 @@ export class UploadResourceDialogComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private userService: UserService,
+    private resourceService: ResourceService,
     public dialogRef: MatDialogRef<UserAccountComponent>
   ) {}
 
   validateCollection(): boolean {
     if(this.collectionResources) {
       for(let i = 0; i < this.collectionResources.length; i++) {
-        // console.log("here");
         if(this.collectionResources[i].collectionDTO.name === this.collection.value) {
-          console.log("here");
           return true;
         }
       }
@@ -74,14 +72,12 @@ export class UploadResourceDialogComponent implements OnInit {
   }
 
   getAllCollections() {
-    this.userService.getAllCollections().subscribe({
+    this.resourceService.getAllCollections().subscribe({
       next: result => {
         this.collectionResources = [];
         result.forEach((collectionResource: CollectionResources) => {
           this.collectionResources.push(collectionResource);
         });
-        // console.log("Collections: ");
-        // console.log(this.collections);
       },
       error: err => {
         console.log(err);
@@ -115,16 +111,16 @@ export class UploadResourceDialogComponent implements OnInit {
           saved: false,
           imageBytes: this.myimage
         },
-        secretToEmbed: this.secretToEmbed.value,
         collectionDTO: {
           name: (this.collection.value !== null) ? this.collection.value.trim() : null,
           description: this.collectionDescription.value
-        }
+        },
+        secretToEmbed: this.secretToEmbed.value,
       };
 
       this.status = "uploading";
 
-      this.userService.postResource(postResource).subscribe({
+      this.resourceService.postResource(postResource).subscribe({
         next: () => {
           this.status = "success";
         },

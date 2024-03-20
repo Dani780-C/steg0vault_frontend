@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { EditResourceComponent } from './edit-resource.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [EditResourceComponent],
@@ -18,7 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    ToastModule
   ]
 })
 export class EditResourceModule { }

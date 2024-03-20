@@ -1,9 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeDetectionStrategy } from "@angular/core";
 import { UploadResourceDialogComponent } from '../upload-resource-dialog/upload-resource-dialog.component';
 import { Overlay } from '@angular/cdk/overlay';
-import { UserService } from 'src/app/services/user/user.service';
 import { Resource } from 'src/app/interfaces/resource';
 import { Collection } from 'src/app/interfaces/collection';
 import { CollectionResources } from 'src/app/interfaces/collection-resources';
@@ -12,6 +11,8 @@ import { Router } from '@angular/router';
 import { ExtractKeyComponent } from '../extract-key/extract-key.component';
 import { AppService } from 'src/app/services/app/app.service';
 import { EditResourceComponent } from '../edit-resource/edit-resource.component';
+import { MessageService } from 'primeng/api';
+import { ResourceService } from 'src/app/services/resource/resource.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -33,12 +34,14 @@ export class UserAccountComponent implements OnInit {
   matrix: number[][]= [];
 
   constructor(
-    private userService: UserService,
+    private resourceService: ResourceService,
     private appService: AppService,
     private storageService: StorageService,
     private router: Router,
     private dialog: MatDialog,
-    private overlay: Overlay) {
+    private overlay: Overlay,
+    private messageService: MessageService
+    ) {
   }
 
   ngOnInit() {
@@ -48,7 +51,7 @@ export class UserAccountComponent implements OnInit {
 
   getCollection(collection: Collection) {
     if(collection) {
-      this.userService.getCollectionByName(collection.name).subscribe({
+      this.resourceService.getCollectionByName(collection.name).subscribe({
         next: result => {
           this.resources = [];
           result.forEach((resource: Resource) => {
@@ -56,10 +59,6 @@ export class UserAccountComponent implements OnInit {
           });
           this.currentCollection.name = collection.name;
           this.currentCollection.description = collection.description;
-          // console.log("Resources: ");
-          // console.log(this.resources);
-          // console.log("Current collection: ");
-          // console.log(this.currentCollection);
           this.setSlides();
         },
         error: err => {
@@ -70,7 +69,7 @@ export class UserAccountComponent implements OnInit {
   }
 
   getAllCollections() {
-    this.userService.getAllCollections().subscribe({
+    this.resourceService.getAllCollections().subscribe({
       next: result => {
         this.collectionResources = [];
         result.forEach((collectionResource: CollectionResources) => {
@@ -82,8 +81,6 @@ export class UserAccountComponent implements OnInit {
         else if(this.currentCollection.name !== '') {
           this.getCollection(this.currentCollection);
         }
-        // console.log("Collections: ");
-        // console.log(this.collectionResources);
       },
       error: err => {
         console.log(err);
@@ -95,9 +92,7 @@ export class UserAccountComponent implements OnInit {
     const dialogRef = this.dialog.open(UploadResourceDialogComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
 
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(`Dialog result: ${result}`);
       this.getAllCollections();
-      // this.getCollection(this.currentCollection);
     });
   }
 
@@ -109,9 +104,7 @@ export class UserAccountComponent implements OnInit {
     const dialogRef = this.dialog.open(EditResourceComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
 
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(`Dialog result: ${result}`);
       this.getAllCollections();
-      // this.getCollection(this.currentCollection);
     });
   }
 
@@ -123,9 +116,6 @@ export class UserAccountComponent implements OnInit {
     const dialogRef = this.dialog.open(ExtractKeyComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
 
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(`Dialog result: ${result}`);
-      // this.getAllCollections();
-      // this.getCollection(this.currentCollection);
     });
   }
 
@@ -133,6 +123,29 @@ export class UserAccountComponent implements OnInit {
     if(collectionResource.collectionDTO.name !== this.currentCollection.name) {
       this.getCollection(collectionResource.collectionDTO);
     }
+  }
+
+  deleteResource() {
+
+  }
+
+  deleteCollection() {
+
+  }
+
+  editCollection() {
+    
+  }
+
+  saveResource() {
+    this.resourceService.saveResource().subscribe({
+      next: result => {
+        this.messageService.add({ severity: 'success', summary: 'Saved!', detail: 'Added to the favourites!' });
+      },
+      error: err => {
+        this.messageService.add({ severity: 'error', summary: 'Error: ', detail: 'Something went wrong!' });
+      }
+    });
   }
 
   logout(): void {
@@ -158,24 +171,6 @@ export class UserAccountComponent implements OnInit {
       }
       this.matrix.push(arr);
     }
-    // console.log(this.matrix);
   }
 
 }
-
-// myControl = new FormControl('');
-// options: string[] = ['One', 'Two', 'Three'];
-// filteredOptions!: Observable<string[]>;
-
-// private _filter(value: string): string[] {
-//   const filterValue = value.toLowerCase();
-
-//   return this.options.filter(option => option.toLowerCase().includes(filterValue));
-// }
-
-// // in ngOnInit
-
-// this.filteredOptions = this.myControl.valueChanges.pipe(
-//   startWith(''),
-//   map(value => this._filter(value || '')),
-// );

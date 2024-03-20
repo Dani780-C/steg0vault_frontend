@@ -13,6 +13,7 @@ import { CommonModule } from "@angular/common";
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ToastModule } from "primeng/toast";
 
 const routes: Routes = [
   {
@@ -38,7 +39,8 @@ const routes: Routes = [
     MatAutocompleteModule,
     MatBadgeModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ToastModule
   ],
   exports: [RouterModule]
 })

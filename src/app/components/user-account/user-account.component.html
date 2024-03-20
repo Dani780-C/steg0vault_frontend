@@ -5,7 +5,7 @@
         </div>
         <div class="action-list">
             <div class="action">
-                <button mat-raised-button (click)="addResource()" style="background-color: #6d1d7b; color: #ffffff;">Upload & embed<mat-icon>add_circle_outline</mat-icon></button>
+                <button mat-raised-button (click)="addResource()" style="background-color: #6d1d7b; color: #ffffff; height: 3rem;">Upload & embed<mat-icon>add_circle_outline</mat-icon></button>
             </div>
             
             <div class="action">
@@ -63,9 +63,9 @@
             <div class="collection-header">
                 <p class="collection-name">{{currentCollection.name}}</p>
                 <button #tooltip="matTooltip"
-                matTooltip="Edit collection" class="edit-collection-button" (click)="addResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen" style="color: #B197FC;"></i></button>
+                matTooltip="Edit collection" class="edit-collection-button" (click)="editCollection()" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen" style="color: #B197FC;"></i></button>
                 <button #tooltip="matTooltip"
-                matTooltip="Delete collection" class="delete-collection-button" (click)="addResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash" style="color: #9c5e5e;"></i></button>
+                matTooltip="Delete collection" class="delete-collection-button" (click)="deleteCollection()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash" style="color: #9c5e5e;"></i></button>
             </div>
             <div class="collection-description">
                 <p *ngIf="this.currentCollection.description !== ''" class="card-description">{{currentCollection.description}}</p>
@@ -92,7 +92,7 @@
                                                 <div class="thumb-content">
                                                     <div class="name-and-fav">
                                                         <h4>{{this.resources[index].name}}</h4>
-                                                        <button (click)="addResource()" style="background-color: inherit; border: none; margin: 0;">
+                                                        <button (click)="saveResource()" style="background-color: inherit; border: none; margin: 0;">
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Unsave"
                                                             matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
@@ -110,7 +110,7 @@
                                                         <button #tooltip="matTooltip"
                                                         matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
                                                         <button #tooltip="matTooltip"
-                                                        matTooltip="Delete resource" class="resource-button" (click)="addResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
+                                                        matTooltip="Delete resource" class="resource-button" (click)="deleteResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
                                                     </div>
                                                 </div>						
                                             </div>
@@ -127,7 +127,7 @@
                                                 <div class="thumb-content">
                                                     <div class="name-and-fav">
                                                         <h4>{{this.resources[index].name}}</h4>
-                                                        <button (click)="addResource()" style="background-color: inherit; border: none; margin: 0;">
+                                                        <button (click)="saveResource()" style="background-color: inherit; border: none; margin: 0;">
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Unsave"
                                                             matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
@@ -145,7 +145,7 @@
                                                         <button #tooltip="matTooltip"
                                                         matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
                                                         <button #tooltip="matTooltip"
-                                                        matTooltip="Delete resource" class="resource-button" (click)="addResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
+                                                        matTooltip="Delete resource" class="resource-button" (click)="deleteResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
                                                     </div>
                                                 </div>						
                                             </div>
@@ -169,7 +169,12 @@
     
 </div>
 
-
+<p-toast  
+    [showTransitionOptions]="'500ms'" 
+    [hideTransitionOptions]="'1000ms'" 
+    [life]="2000"
+    [position]="'top-center'">
+</p-toast>
 
 
 

@@ -45,8 +45,15 @@
 
         <div class="buttons">
             <button class="step-button" mat-button (click)="onCloseDialog()">Cancel</button>
-            <button class="step-button" mat-button>Save</button>
+            <button class="step-button" mat-button (click)="editResource()">Save</button>
         </div>
     
     </div>
 </div>
+
+<p-toast  
+    [showTransitionOptions]="'500ms'" 
+    [hideTransitionOptions]="'1000ms'" 
+    [life]="2000"
+    [position]="'top-center'">
+</p-toast>

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ExtractedResource } from 'src/app/interfaces/extracted-resource';
+import { UpdateResource } from 'src/app/interfaces/updateResource';
 import { AppService } from 'src/app/services/app/app.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { UserAccountComponent } from '../user-account/user-account.component';
+import { MessageService } from 'primeng/api';
+import { ResourceService } from 'src/app/services/resource/resource.service';
 
 @Component({
   selector: 'app-edit-resource',
@@ -13,9 +15,14 @@ import { UserAccountComponent } from '../user-account/user-account.component';
 })
 export class EditResourceComponent implements OnInit {
 
-  algorithms: string[] = new Array('A_TYPE1', 'A_TYPE2', 'A_TYPE3', 'A_TYPE4');
+  algorithms: string[] = new Array('LSB_REPLACEMENT', 'LSB_MATCHING', 'LSB_MATCHING_REVISITED');
   imageBytes: any;
-
+  updateResource: UpdateResource = {
+    'algorithm': '',
+    'description': '',
+    'name': '',
+    'newSecret': ''
+  };
 
   formGroup = this._formBuilder.group({
     fileName: [''],
@@ -27,10 +34,12 @@ export class EditResourceComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private userService: UserService,
+    private resourceService: ResourceService,
     private appService: AppService,
-    public dialogRef: MatDialogRef<UserAccountComponent>
-  ) {}
+    public dialogRef: MatDialogRef<UserAccountComponent>,
+    private messageService: MessageService
+  ) {
+  }
 
   ngOnInit() {
     this.imageBytes = this.appService.getCurrentBytes();
@@ -38,24 +47,40 @@ export class EditResourceComponent implements OnInit {
   }
 
   fillForm() {
-    this.userService.getResourceInfo(
+    this.resourceService.getResourceInfo(
       this.appService.getCurrentExtractedResourceName(), 
       this.appService.getCurrentExtractedCollectionName()).subscribe({
         next: result => {
           this.formGroup.patchValue({'fileName': result.name});
           this.formGroup.patchValue({'description': result.description});
           this.formGroup.patchValue({'algorithm': result.algorithmType});
-          console.log(result);
+          // console.log(result);
         },
         error: err => {
-          console.log("error ");
-          console.log(err);
+          // console.log("error ");
+          // console.log(err);
         }
       });;
   }
 
   editResource() {
-    
+    this.updateResource.algorithm = this.formGroup.controls['algorithm'].value;
+    this.updateResource.name = this.formGroup.controls['fileName'].value;
+    this.updateResource.newSecret = this.formGroup.controls['secretToEmbed'].value;
+    this.updateResource.description = this.formGroup.controls['description'].value;
+    this.resourceService.updateResource(
+        this.updateResource
+      ).subscribe({
+        next: result => {
+          this.messageService.add({ severity: 'success', summary: 'Success: ', detail: 'The resource has been updated.' });
+          // console.log(result);
+        },
+        error: err => {
+          this.messageService.add({ severity: 'error', summary: 'Failed: ', detail: 'The resource has not been updated.' });
+          // console.log("error ");
+          // console.log(err);
+        }
+      });;
   }
 
   onCloseDialog() {

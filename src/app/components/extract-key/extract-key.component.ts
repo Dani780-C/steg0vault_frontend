@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExtractedResource } from 'src/app/interfaces/extracted-resource';
 import { AppService } from 'src/app/services/app/app.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { ResourceService } from 'src/app/services/resource/resource.service';
 
 @Component({
   selector: 'app-extract-key',
@@ -19,7 +19,7 @@ export class ExtractKeyComponent implements OnInit {
 
   constructor(
     private appService: AppService,
-    private userService: UserService
+    private resourceService: ResourceService
   ) {}
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class ExtractKeyComponent implements OnInit {
       this.appService.getCurrentExtractedCollectionName() !== null && this.appService.getCurrentExtractedCollectionName() !== '')
     {
       this.result.imageBytes = this.appService.getCurrentBytes();
-      this.userService.getResourceByName(
+      this.resourceService.getResourceByName(
         this.appService.getCurrentExtractedResourceName(),
         this.appService.getCurrentExtractedCollectionName()
       ).subscribe({
