@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="title">
+        <h3 mat-dialog-title>Delete file</h3>
+    </div>
+    <div>
+        <p>Do you want to delete <span style="font-weight: bolder;">{{resName}}</span> ?</p>
+        <p *ngIf="this.deleteColl === true" class="warning" style="background-color: rgba(198, 159, 159, 0.724);"><span style="font-weight:bolder; color:rgb(255, 0, 0);">Warning: </span> Collection {{collName}} will be automatically deleted because it will be empty after removing this resource!</p>
+    </div>
+    <div>
+        <div class="buttons">
+            <button class="close-button" mat-button (click)="onCloseDialog()">Cancel</button>
+            <button class="delete-button" mat-button (click)="deleteResource()">Delete</button>
+        </div>
+    </div>
+</div>

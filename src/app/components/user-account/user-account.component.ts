@@ -13,6 +13,8 @@ import { AppService } from 'src/app/services/app/app.service';
 import { EditResourceComponent } from '../edit-resource/edit-resource.component';
 import { MessageService } from 'primeng/api';
 import { ResourceService } from 'src/app/services/resource/resource.service';
+import { DeletePromptComponent } from '../delete-prompt/delete-prompt.component';
+import { DeleteCollectionPromptComponent } from '../delete-collection-prompt/delete-collection-prompt.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -29,6 +31,9 @@ export class UserAccountComponent implements OnInit {
     description: ''
   };
   email: string | null = "";
+  currentCollIndex: number = 0;
+  existsAnyCollection: boolean = false;
+  timing: boolean = false;
 
   numberOfSlides: number[] = new Array();
   matrix: number[][]= [];
@@ -45,6 +50,8 @@ export class UserAccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.existsAnyCollection = this.appService.getExistsAnyCollection();
+    if(this.existsAnyCollection === true) this.timing = true;
     this.getAllCollections();
     this.email = this.storageService.getCurrentlyLoggedUserEmail();
   }
@@ -59,7 +66,16 @@ export class UserAccountComponent implements OnInit {
           });
           this.currentCollection.name = collection.name;
           this.currentCollection.description = collection.description;
+          let ok = true;
+          for(var i = 0; i < this.collectionResources.length && ok; i++) {
+            if(this.collectionResources[i].collectionDTO.name === this.currentCollection.name) {
+              this.currentCollIndex = i + 1;
+              ok = false;
+            }
+          }
           this.setSlides();
+          this.existsAnyCollection = true;
+          this.timing = false;
         },
         error: err => {
           console.log(err);
@@ -75,10 +91,20 @@ export class UserAccountComponent implements OnInit {
         result.forEach((collectionResource: CollectionResources) => {
           this.collectionResources.push(collectionResource);
         });
+        if(this.collectionResources.length === 0) {
+          this.existsAnyCollection = false;
+          this.resources = [];
+          this.currentCollIndex = 0;
+          this.timing = true;
+        }
+        // else if(this.collectionResources.length > 0 && this.existsAnyCollection === false) {
+        //   this.getCollection(this.collectionResources[0].collectionDTO);
+        //   // this.existsAnyCollection = true;
+        // }
         if(this.collectionResources.length > 0 && this.currentCollection.name === '') {
           this.getCollection(this.collectionResources[0].collectionDTO);
         }
-        else if(this.currentCollection.name !== '') {
+        else if(this.existsAnyCollection == true && this.currentCollection.name !== '') {
           this.getCollection(this.currentCollection);
         }
       },
@@ -100,11 +126,14 @@ export class UserAccountComponent implements OnInit {
     this.appService.setCurrentExtractedResourceName(resourceName);
     this.appService.setCurrentExtractedCollectionName(collectionName);
     this.appService.setCurrentBytes(imageBytes);
+    this.appService.setCurrentCollectionName(collectionName || '');
+    this.appService.setCurrentResourceName(resourceName || '');
 
     const dialogRef = this.dialog.open(EditResourceComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
 
     dialogRef.afterClosed().subscribe(result => {
       this.getAllCollections();
+      this.getCollection(this.currentCollection);
     });
   }
 
@@ -125,22 +154,68 @@ export class UserAccountComponent implements OnInit {
     }
   }
 
-  deleteResource() {
+  deleteResource(collName: string, resName: string) {
+    let ok = false;
+    if(this.resources.length == 1) {
+      this.appService.setDeleteCollection(true);
+      ok = true;
+    }
+    else {
+      this.appService.setDeleteCollection(false);
+    }
+    this.appService.setCurrentCollectionName(collName);
+    this.appService.setCurrentResourceName(resName);
+    const dialogRef = this.dialog.open(DeletePromptComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if(ok === true && this.appService.getDeleted() === true) 
+        this.currentCollection.name = '';
+      this.getAllCollections();
+      // if(ok === true && this.collectionResources.length > 0) {
+      //   this.currentCollection = this.collectionResources[0].collectionDTO;
+      //   this.getCollection(this.currentCollection);
+      //   this.existsAnyCollection = true;
+      // }
+      // else {
+      //   this.existsAnyCollection = false;
+      // } 
+    });
   }
 
-  deleteCollection() {
-
-  }
-
-  editCollection() {
+  deleteCollection(collName: string) {
     
+    this.appService.setCurrentCollectionName(collName);
+    this.appService.setResLength(this.resources.length);
+    const dialogRef = this.dialog.open(DeleteCollectionPromptComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(this.appService.getCollDeleted() === true)
+        this.currentCollection.name = '';
+      this.getAllCollections();
+      // if(ok === true && this.collectionResources.length > 0) {
+      //   this.currentCollection = this.collectionResources[0].collectionDTO;
+      //   this.getCollection(this.currentCollection);
+      //   this.existsAnyCollection = true;
+      // }
+      // else {
+      //   this.existsAnyCollection = false;
+      // } 
+    });
   }
 
-  saveResource() {
-    this.resourceService.saveResource().subscribe({
+  // editCollection() {
+    
+  // }
+
+  saveResource(collectionName: string, resourceName: string) {
+    this.resourceService.saveResource(collectionName, resourceName).subscribe({
       next: result => {
-        this.messageService.add({ severity: 'success', summary: 'Saved!', detail: 'Added to the favourites!' });
+        this.getCollection(this.currentCollection);
+        console.log(result);
+        if(result === true)
+          this.messageService.add({ severity: 'success', summary: 'Saved!', detail: 'Added to favourites!' });
+        else
+          this.messageService.add({ severity: 'success', summary: 'Unsaved!', detail: 'Removed from favourites!' });
       },
       error: err => {
         this.messageService.add({ severity: 'error', summary: 'Error: ', detail: 'Something went wrong!' });

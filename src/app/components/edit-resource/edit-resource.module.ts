@@ -10,7 +10,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { ToastModule } from 'primeng/toast';
 
 @NgModule({
-  declarations: [EditResourceComponent],
+  declarations: [
+    EditResourceComponent
+  ],
   imports: [
     CommonModule,
     MatMenuModule,

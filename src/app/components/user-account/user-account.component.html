@@ -5,12 +5,12 @@
         </div>
         <div class="action-list">
             <div class="action">
-                <button mat-raised-button (click)="addResource()" style="background-color: #6d1d7b; color: #ffffff; height: 3rem;">Upload & embed<mat-icon>add_circle_outline</mat-icon></button>
+                <button mat-raised-button (click)="addResource()" style="background-color: #6d1d7b; color: #ffffff; height: 3rem; outline:none;">Upload & embed<mat-icon>add_circle_outline</mat-icon></button>
             </div>
             
             <div class="action">
                 <div class="user-box" style="display: flex; flex-direction: row; padding: 0.1rem 0.1rem 0.1rem 1rem; border-radius: 25px 50px 50px 25px; border-style: solid; border-color: #6d1d7b;">
-                    <div class="user" style="color: #c2bcd2; text-align: center; align-self: center; margin: 0;">
+                    <div class="user" style="color: #000000; text-align: center; align-self: center; margin: 0;">
                         <p style="margin: 0; padding-right: 1rem; font-size: larger;">{{email}}</p>
                     </div>
                     <button mat-fab matTooltip="Primary" #tooltip="matTooltip"
@@ -45,27 +45,31 @@
 </div>
 <div class="container">
     <div class="side-nav-bar">
-        <p> Collections </p>
-        <aside>
+        <p> Collections {{currentCollIndex}} / {{collectionResources.length}}</p>
+        <aside *ngIf="this.existsAnyCollection === true">
             <div *ngFor="let coll of collectionResources">
-                <div class="collName" (click)="selectCollectionToDisplay(coll)" *ngIf="coll.collectionDTO.name === currentCollection.name" style="background-color: #B197FC; border-top-left-radius: 20px; border-bottom-left-radius: 20px; color: black;">
-                    {{coll.collectionDTO.name}}
+                <div class="collName" (click)="selectCollectionToDisplay(coll)" *ngIf="coll.collectionDTO.name === currentCollection.name" 
+                style="background-color: #87848d; border-top-left-radius: 20px; border-bottom-left-radius: 20px; color: black;">
+                <i class="fa-solid fa-caret-right"></i>   {{coll.collectionDTO.name}}
                 </div>
                 <div class="collName" (click)="selectCollectionToDisplay(coll)" *ngIf="coll.collectionDTO.name !== currentCollection.name">
                     {{coll.collectionDTO.name}}
                 </div>
             </div>
         </aside>
+        <aside *ngIf="this.existsAnyCollection === false && this.timing === true" style="padding: 0;">
+            <p style="height: 100%; text-align: center; color: #73669a; margin-top: 2rem;">Your new <br> collections <br> will be <br> listed here. </p>
+        </aside>
     </div>
     
-    <div class="collections">
+    <div class="collections" *ngIf="this.existsAnyCollection === true">
         <div class="collection-container">
             <div class="collection-header">
                 <p class="collection-name">{{currentCollection.name}}</p>
+                <!-- <button #tooltip="matTooltip"
+                matTooltip="Edit collection" class="edit-collection-button" (click)="editCollection()" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-pen" style="color: #B197FC;"></i></button> -->
                 <button #tooltip="matTooltip"
-                matTooltip="Edit collection" class="edit-collection-button" (click)="editCollection()" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen" style="color: #B197FC;"></i></button>
-                <button #tooltip="matTooltip"
-                matTooltip="Delete collection" class="delete-collection-button" (click)="deleteCollection()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash" style="color: #9c5e5e;"></i></button>
+                matTooltip="Delete collection" class="delete-collection-button" (click)="deleteCollection(this.currentCollection.name || '')" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-trash" style="color: #9c5e5e;"></i></button>
             </div>
             <div class="collection-description">
                 <p *ngIf="this.currentCollection.description !== ''" class="card-description">{{currentCollection.description}}</p>
@@ -92,7 +96,7 @@
                                                 <div class="thumb-content">
                                                     <div class="name-and-fav">
                                                         <h4>{{this.resources[index].name}}</h4>
-                                                        <button (click)="saveResource()" style="background-color: inherit; border: none; margin: 0;">
+                                                        <button (click)="saveResource(this.currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; outline: none; border: none; margin: 0;">
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Unsave"
                                                             matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
@@ -108,9 +112,9 @@
                                                         matTooltip="Extract key"
                                                         color="primary" class="resource-button" style="width: 35%; border-radius: 5px; background-color: #6d1d7b;" (click)="extractKey(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>vpn_key</mat-icon><p style="margin: 0; padding: 0 0 0 10px; font-weight: bold; align-content: center;">Extract</p></button>
                                                         <button #tooltip="matTooltip"
-                                                        matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
+                                                        matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
                                                         <button #tooltip="matTooltip"
-                                                        matTooltip="Delete resource" class="resource-button" (click)="deleteResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
+                                                        matTooltip="Delete resource" class="resource-button" (click)="deleteResource(currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; border: none; outline: none;" ><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
                                                     </div>
                                                 </div>						
                                             </div>
@@ -127,7 +131,7 @@
                                                 <div class="thumb-content">
                                                     <div class="name-and-fav">
                                                         <h4>{{this.resources[index].name}}</h4>
-                                                        <button (click)="saveResource()" style="background-color: inherit; border: none; margin: 0;">
+                                                        <button (click)="saveResource(this.currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; border: none; outline: none; margin: 0;">
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Unsave"
                                                             matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
@@ -143,9 +147,9 @@
                                                         matTooltip="Extract key"
                                                         color="primary" class="resource-button" style="width: 35%; border-radius: 5px; background-color: #6d1d7b;" (click)="extractKey(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>vpn_key</mat-icon><p style="margin: 0; padding: 0 0 0 10px; font-weight: bold; align-content: center;">Extract</p></button>
                                                         <button #tooltip="matTooltip"
-                                                        matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
+                                                        matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
                                                         <button #tooltip="matTooltip"
-                                                        matTooltip="Delete resource" class="resource-button" (click)="deleteResource()" style="background-color: inherit; border: none;"><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
+                                                        matTooltip="Delete resource" class="resource-button" (click)="deleteResource(currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-trash fa-2x" style="color: #751717;"></i></button>
                                                     </div>
                                                 </div>						
                                             </div>
@@ -154,10 +158,10 @@
                                 </div>
                             </div>
                         
-                            <a *ngIf="resources.length > 3" class="carousel-control-prev" href="#carousel" data-slide="prev" style="border: none;">
+                            <a *ngIf="resources.length > 3" class="carousel-control-prev" href="#carousel" data-slide="prev" style="border: none; outline: none;">
                                 <i class="fa-solid fa-angle-left" style="color: #c2bcd2;"></i>
                             </a>
-                            <a *ngIf="resources.length > 3" class="carousel-control-next" href="#carousel" data-slide="next" style="border: none;">
+                            <a *ngIf="resources.length > 3" class="carousel-control-next" href="#carousel" data-slide="next" style="border: none; outline: none;">
                                 <i class="fa-solid fa-angle-right" style="color: #c2bcd2;"></i>
                             </a>
                         </div>
@@ -165,6 +169,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="collections" *ngIf="this.existsAnyCollection === false && this.timing === true">
+        This will be a short description about the project and algorithms!
     </div>
     
 </div>

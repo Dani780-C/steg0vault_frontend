@@ -16,7 +16,7 @@ import { ResourceService } from 'src/app/services/resource/resource.service';
 export class UploadResourceDialogComponent implements OnInit {
   
   collectionResources: CollectionResources[] = new Array();
-  algorithms: string[] = new Array('LSB_REPLACEMENT', 'LSB_MATCHING', 'LSB_MATCHING_REVISITED');
+  algorithms: string[] = new Array('LSB_REPLACEMENT', 'LSB_MATCHING', 'LSB_MATCHING_REVISITED', 'BINARY_HAMMING_CODES', 'RANDOM_PIXEL_SELECTION', 'MULTI_BIT_PLANE');
   status: "initial" | "uploading" | "success" | "fail" = "initial";
   file: File | null = null;
   myimage: string = '';
@@ -58,7 +58,7 @@ export class UploadResourceDialogComponent implements OnInit {
     for(let i=0 ;i<this.collectionResources.length;i++){
       if(this.collectionResources[i].collectionDTO.name===this.collection.value){
         for(let j=0 ;j<this.collectionResources[i].resourceNameAndDescriptionDTO.length;j++){
-          if(this.collectionResources[i].resourceNameAndDescriptionDTO[j].name === this.fileName.value){
+          if(this.collectionResources[i].resourceNameAndDescriptionDTO[j].name.trim() === this.fileName.value?.trim()){
             return true;
           }
         }

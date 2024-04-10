@@ -3,8 +3,10 @@
         width: 100vw;
         display: flex;
         flex-direction: row;
-        background: rgb(55,22,60);
-        background: linear-gradient(180deg, rgba(55,22,60,1) 0%, rgba(34,25,32,1) 31%, rgba(32,25,30,1) 66%, rgba(29,26,26,1) 100%);
+        // background: rgb(55,22,60);
+        // background: rgb(255, 255, 255);
+        // background: linear-gradient(180deg, rgba(55,22,60,1) 0%, rgba(34,25,32,1) 31%, rgba(32,25,30,1) 66%, rgba(29,26,26,1) 100%);
+        background: linear-gradient(180deg, rgb(174, 170, 170) 0%, rgb(210, 207, 207) 31%, rgb(205, 201, 201) 66%, rgb(201, 197, 197) 100%);
         .logo {
             margin: 10px;
             margin-right: 20px;
@@ -96,9 +98,10 @@
         height: 100%;
         p {
             font-weight: bolder;
-            font-size: xx-large;
+            font-size: large;
             text-align: center;
             color: #bab6b6;
+            margin-top: 1rem;
         }
         padding-right: 3rem;
         aside {
@@ -106,7 +109,8 @@
             width: 100%;
             padding-left: 1rem;
             height: 92%;
-            background-color: #64287490;
+            // background-color: #64287490;
+            background-color: rgba(182, 171, 183, 0.528);
             border-radius: 20px;
             display: flex;
             position: relative;
@@ -121,21 +125,26 @@
         aside .collName {
             font-size: x-large;
             margin: 0.2rem 0;
-            color: #bab6b6;
+            color: #000000;
             display: block;
             padding: 0.5rem;
             padding-left: 1rem;
             padding-right: 1rem;
             text-decoration: none;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            color: #343131;
+            background: #b9b6b6;
             -webkit-tap-highlight-color: transparent;
         }
         
         aside .collName:hover {
-            color: #ffffff;
+            // color: #ffffff;
             background: #a2a1a1;
             outline: none;
             position: relative;
-            background-color: #856285;
+            // background-color: #856285;
+            // background-color: #cdc5cd;
             border-top-left-radius: 20px;
             border-bottom-left-radius: 20px;
             cursor: pointer;
@@ -174,7 +183,8 @@
     margin-top: 4rem;
     margin-right: 3rem;
     .collection-container {
-        box-shadow: 2px 4px 4px 10px rgba(145, 35, 157, 0.2), 0 6px 20px 0 #ab17d03e;
+        // box-shadow: 2px 4px 4px 10px rgba(145, 35, 157, 0.2), 0 6px 20px 0 #ab17d03e;
+        box-shadow: 2px 4px 4px 10px rgba(172, 165, 172, 0.288), 0 6px 20px 0 #726b733e;
         display: flex;
         height: 75vh;
         flex-direction: column;
@@ -193,7 +203,8 @@
                 text-align: start;
                 font-size: x-large;
                 font-weight: 600;
-                color: #fff;
+                // color: #fff;
+                color:#151313;
             }
             .edit-collection-button {
                 margin: 0 10px 0 auto;
@@ -215,7 +226,8 @@
                 -webkit-line-clamp: 1;
                 margin: 0 150px 10px 25px;
                 text-align: start;
-                color:#bab6b6;
+                // color:#bab6b6;
+                color:#000000;
             }
         }
        
@@ -245,15 +257,18 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            color:#bab6b6;
+            // color:#bab6b6;
+            color:#040303;
        }
        .favorite-button {
            padding: 6px 0 0 0;
+           outline: none;
            .fav {
                width: 35px;
                height: 35px;
                border: none;
                font-size: 35px;
+               outline: none;
            }
        }
    }
@@ -262,7 +277,8 @@
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        color:#9b9898;
+        // color:#9b9898;
+        color:#474343;
         margin-bottom: 3px;
    }
 }
@@ -331,8 +347,10 @@
     position: relative;
 	margin: 5px;
 	text-align: left;
-	background: #ba7dba58;
-	box-shadow: 0px 0px 5px 5px rgba(87, 24, 110, 0.138);
+	// background: #ba7dba58;
+	// box-shadow: 0px 0px 5px 5px rgba(87, 24, 110, 0.138);
+	background: #d4cfcf17;
+	box-shadow: 0px 0px 5px 5px rgba(103, 102, 104, 0.138);
     width: 100%;
     height: 98%;
     border-radius: 15px;

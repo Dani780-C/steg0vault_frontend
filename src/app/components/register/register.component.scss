@@ -11,6 +11,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            z-index: 100;
             .register-card-body {
                 padding: 50px;
                 border-top-left-radius: 25px;
@@ -37,7 +38,7 @@
                         }
                         .form-control:focus {
                             border-color: #28a745;
-                            box-shadow: 0 0 0 0.2rem #5f2ac2b8;
+                            box-shadow: 0 0 0 0.2rem #6d1d7b;
                         } 
                     }
                     .register-button {
@@ -50,7 +51,7 @@
                         color: white;
                     }
                     .register-button:enabled {
-                        background-color: slateblue;
+                        background-color: #6d1d7b;
                     }
                 }
             }
@@ -61,6 +62,20 @@
                 border-bottom-left-radius: 25px;
                 border-bottom-right-radius: 25px;
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+        }
+        .login-image {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            // height: 50%;
+            .welcome-image {
+
+                img {
+                    scale: 2;
+                    border-radius: 5% 10% 10% 5%;
+                }
+                transform: translate(-2rem);
             }
         }
     }

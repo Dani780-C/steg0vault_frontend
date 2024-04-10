@@ -7,6 +7,13 @@
   }
 
 
+  // .mat-horizontal-stepper-header .mat-step-icon-selected {
+  //   background-color: #6d1d7b !important;
+  // }
+  // .mat-step-icon-selected {
+  //   background-color: #6d1d7b !important;
+  // }
+
 .upload-dialog {
     width: 50vw;
     height: 80vh;
@@ -23,7 +30,8 @@
         flex-direction: column;
         justify-content:space-around;
         align-items: center;
-         
+        overflow: hidden !important; 
+
         input[type="file"] {
           display: none;
         }
@@ -48,7 +56,7 @@
         .stepper-button-box {
           width: 20%;
           .step-button {
-            background-color: slateblue;  
+            background-color: #6d1d7b;  
           }
           .step-button:disabled {
             background-color: slategray;
@@ -85,7 +93,7 @@
             justify-content: space-between;
             align-items: center;
             border-style: solid;
-            border-color: slateblue;
+            border-color: #6d1d7b;
             border-radius: 10px;
             // margin: 30px;
             padding: 10px;
@@ -141,7 +149,7 @@
           justify-content: space-around;
           width: 50%;
           .step-button {
-            background-color: slateblue;  
+            background-color: #6d1d7b;  
           }
           .step-button:disabled {
             background-color: slategray;
@@ -180,7 +188,7 @@
           align-items: center;
           width: 100%;
           .step-button {
-            background-color: slateblue;  
+            background-color: #6d1d7b;  
           }
           .step-button:disabled {
             background-color: slategray;
@@ -189,6 +197,10 @@
       }
     }
     
+}
+
+.cdk-overlay-pane {
+  width: 50vw;
 }
 
 // .details {

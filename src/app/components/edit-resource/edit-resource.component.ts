@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { UpdateResource } from 'src/app/interfaces/updateResource';
 import { AppService } from 'src/app/services/app/app.service';
-import { UserService } from 'src/app/services/user/user.service';
 import { UserAccountComponent } from '../user-account/user-account.component';
 import { MessageService } from 'primeng/api';
 import { ResourceService } from 'src/app/services/resource/resource.service';
@@ -15,8 +14,10 @@ import { ResourceService } from 'src/app/services/resource/resource.service';
 })
 export class EditResourceComponent implements OnInit {
 
-  algorithms: string[] = new Array('LSB_REPLACEMENT', 'LSB_MATCHING', 'LSB_MATCHING_REVISITED');
+  algorithms: string[] = new Array('LSB_REPLACEMENT', 'LSB_MATCHING', 'LSB_MATCHING_REVISITED', 'BINARY_HAMMING_CODES', 'RANDOM_PIXEL_SELECTION', 'MULTI_BIT_PLANE');
   imageBytes: any;
+  collectionName: string = '';
+  resourceName: string = '';
   updateResource: UpdateResource = {
     'algorithm': '',
     'description': '',
@@ -51,9 +52,10 @@ export class EditResourceComponent implements OnInit {
       this.appService.getCurrentExtractedResourceName(), 
       this.appService.getCurrentExtractedCollectionName()).subscribe({
         next: result => {
+          console.log(result);
           this.formGroup.patchValue({'fileName': result.name});
           this.formGroup.patchValue({'description': result.description});
-          this.formGroup.patchValue({'algorithm': result.algorithmType});
+          this.formGroup.patchValue({'algorithm': result.algorithm});
           // console.log(result);
         },
         error: err => {
@@ -69,10 +71,13 @@ export class EditResourceComponent implements OnInit {
     this.updateResource.newSecret = this.formGroup.controls['secretToEmbed'].value;
     this.updateResource.description = this.formGroup.controls['description'].value;
     this.resourceService.updateResource(
+        this.appService.getCurrentCollectionName(),
+        this.appService.getCurrentResourceName(),
         this.updateResource
       ).subscribe({
         next: result => {
           this.messageService.add({ severity: 'success', summary: 'Success: ', detail: 'The resource has been updated.' });
+          this.onCloseDialog();
           // console.log(result);
         },
         error: err => {

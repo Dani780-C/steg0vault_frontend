@@ -11,15 +11,14 @@ import { NotFoundModule } from './components/not-found/not-found.module';
 import { ForgotPasswordModule } from './components/forgot-password/forgot-password.module';
 import { UploadResourceDialogModule } from './components/upload-resource-dialog/upload-resource-dialog.module';
 import { HttpClientModule } from '@angular/common/http';
-import { ExtractKeyComponent } from './components/extract-key/extract-key.component';
-import { EditResourceComponent } from './components/edit-resource/edit-resource.component';
 import { EditResourceModule } from './components/edit-resource/edit-resource.module';
-import { EditCollectionComponent } from './components/edit-collection/edit-collection.component';
+import { DeletePromptModule } from './components/delete-prompt/delete-prompt.module';
+import { DeleteCollectionPromptComponent } from './components/delete-collection-prompt/delete-collection-prompt.component';
+import { DeleteCollectionPromptModule } from './components/delete-collection-prompt/delete-collection-prompt.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    EditCollectionComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +32,9 @@ import { EditCollectionComponent } from './components/edit-collection/edit-colle
     NgbModule,
     UploadResourceDialogModule,
     HttpClientModule,
-    EditResourceModule
+    EditResourceModule,
+    DeletePromptModule,
+    DeleteCollectionPromptModule
   ],
   providers: [],
   bootstrap: [AppComponent]

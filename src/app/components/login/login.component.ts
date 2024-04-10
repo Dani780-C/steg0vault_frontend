@@ -6,6 +6,8 @@ import { AuthService } from '../../services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { USER_NOT_FOUND_ERROR_CODE } from 'src/app/constants/constants';
 import { MessageService } from 'primeng/api';
+import { AppService } from 'src/app/services/app/app.service';
+import { ResourceService } from 'src/app/services/resource/resource.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,9 @@ export class LoginComponent implements OnInit {
     private auth: AuthService, 
     private router: Router, 
     private storageService: StorageService,
-    private messageService: MessageService  
+    private messageService: MessageService,
+    private appService: AppService,
+    private resourceService: ResourceService
   ) {
   }
 
@@ -43,6 +47,15 @@ export class LoginComponent implements OnInit {
           this.status = 'success';
           this.storageService.setToken('token', result['token'] as string);
           this.storageService.setCurrentlyLoggedUserEmail(this.loginForm.controls['email'].value);
+          this.resourceService.getAllCollections().subscribe({
+            next: result => {
+              if(result.length > 0) {
+                this.appService.setExistsAnyCollection(true);
+              }
+              else
+                this.appService.setExistsAnyCollection(false);
+            }
+          });
           this.router.navigate(['/home']);
         },
         error: error => {

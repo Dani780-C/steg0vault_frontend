@@ -1,0 +1,35 @@
+
+.container {
+    height: 30vh;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    p {
+        padding: 4px;
+    }
+    .buttons {
+        margin-top: auto;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        button {
+            // color: white;
+            // background-color: #6d1d7b;
+            color: #6d1d7b;
+            font-weight: bolder;
+            background-color: #fff;
+            border-style: none;
+            outline: none;
+            width: 30%;
+        }
+        .delete-button {
+            border-style: none;
+            outline: none;
+            // background-color: rgb(202, 62, 62);
+            // color: white;
+            color: #ff0000;
+        }
+    }
+}

@@ -5,7 +5,7 @@ import { PostResource } from 'src/app/interfaces/post-resource';
 import { StorageService } from '../storage/storage.service';
 import { UpdateResource } from 'src/app/interfaces/updateResource';
 
-const USER_API = 'http://localhost:8080/api/user/';
+const USER_API = 'http://${BACKEND_CONTAINER}/api/v1/user/';
 
 @Injectable({
   providedIn: 'root'

@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { USER_ALREADY_EXISTS_ERROR_CODE } from 'src/app/constants/constants';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { AppService } from 'src/app/services/app/app.service';
 
 @Component({
   selector: 'app-register',
@@ -26,6 +27,7 @@ export class RegisterComponent {
     private auth: AuthService, 
     private router: Router, 
     private storageService: StorageService,
+    private appService: AppService,
     private messageService: MessageService
   ) {}
 
@@ -40,6 +42,7 @@ export class RegisterComponent {
           this.status = "success";
           this.storageService.setToken('token', result['token'] as string);
           this.storageService.setCurrentlyLoggedUserEmail(this.email.value);
+          this.appService.setExistsAnyCollection(false);
           this.router.navigate(['/home']);
         },
         error: error => {

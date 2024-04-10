@@ -7,17 +7,17 @@
             <div class="first-step-container">
               <label class="custom-file-upload" *ngIf="!file">
                 <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
-                <i class="fa-solid fa-file-arrow-up fa-4x"></i>Upload file (BMP, PNG, PPM, PNM, TIF, TIFF)
+                <i class="fa-solid fa-file-arrow-up fa-4x"></i>Upload file <!-- (BMP, PNG, PPM, PNM, TIF, TIFF) -->
               </label>
 
-              <label class="custom-file-upload" *ngIf="file && !acceptableFileType()" style="background-color: rgb(132, 123, 185);">
+              <label class="custom-file-upload" *ngIf="file && !acceptableFileType()" style="background-color: rgba(88, 30, 93, 0.638);">
                 <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
                 <i class="fa-solid fa-file-arrow-up fa-4x"></i>{{file.name}}
               </label>
               
               <label class="custom-file-upload" *ngIf="file && acceptableFileType()" style="background-color: rgb(193, 116, 116);">
                 <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
-                <i class="fa-solid fa-circle-exclamation fa-4x"></i>File type not supported
+                <i class="fa-solid fa-circle-exclamation fa-4x"></i>Unsupported ile type
               </label>
               
               <div *ngIf="file" class="file-info-box">
@@ -31,7 +31,7 @@
                 </section>
               </div>
               <div class="stepper-button-box">
-                <button class="step-button" style="width: 100%; color: white;" mat-button matStepperNext [disabled]="acceptableFileType()">Next</button>
+                <button class="step-button" style="width: 100%; color: white; background-color: #6d1d7b;" mat-button matStepperNext [disabled]="acceptableFileType()">Next</button>
               </div>
             </div>
           </form>
@@ -95,7 +95,7 @@
                 <div class="select-algorithm">
                   <button id="selectAlgorithmButton" mat-raised-button [matMenuTriggerFor]="algorithmMenu" *ngIf="algorithm.value === ''">Select algorithm<mat-icon>flash_on</mat-icon></button>
                   <button id="selectAlgorithmButton" mat-raised-button [matMenuTriggerFor]="algorithmMenu" *ngIf="algorithm.value !== ''">{{algorithm.value}}<mat-icon>flash_on</mat-icon></button>
-                  <mat-menu #algorithmMenu="matMenu">
+                  <mat-menu #algorithmMenu="matMenu" style="width: 100%;">
                     <button mat-menu-item *ngFor="let algorithm of algorithms" (click)="setAlgorithm(algorithm)">{{algorithm}}</button>
                   </mat-menu>
                 </div>
@@ -136,7 +136,7 @@
             <div class="stepper-button-box">
               <button *ngIf="status === 'initial'" class="step-button" style="width: 30%; color: white;" mat-button matStepperPrevious>Back</button>
               <button *ngIf="status === 'uploading'" class="step-button" style="width: 30%; color: white;" mat-button matStepperPrevious>Back</button>
-              <button *ngIf="status === 'success'" class="step-button" style="width: 30%; color: white;" mat-button (click)="stepper.reset(); reset()">New upload</button>
+              <!-- <button *ngIf="status === 'success'" class="step-button" style="width: 30%; color: white;" mat-button (click)="stepper.reset(); reset()">New upload</button> -->
               <button *ngIf="status === 'initial'" class="step-button" style="width: 30%; color: white;" mat-button (click)="onUpload()">Upload</button>
               <button *ngIf="status === 'uploading'" class="step-button" style="width: 30%; color: white;" mat-button disabled>Upload</button>
               <button *ngIf="status === 'success' || status === 'fail'" class="step-button" style="width: 30%; color: white;" mat-button (click)="onCloseDialog()">Close</button>
