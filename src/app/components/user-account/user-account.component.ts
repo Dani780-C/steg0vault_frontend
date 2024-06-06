@@ -15,6 +15,8 @@ import { MessageService } from 'primeng/api';
 import { ResourceService } from 'src/app/services/resource/resource.service';
 import { DeletePromptComponent } from '../delete-prompt/delete-prompt.component';
 import { DeleteCollectionPromptComponent } from '../delete-collection-prompt/delete-collection-prompt.component';
+import { ResourceNameAndDescription } from 'src/app/interfaces/resource-name-and-description';
+import { TryToExtractComponent } from '../try-to-extract/try-to-extract.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -122,6 +124,14 @@ export class UserAccountComponent implements OnInit {
     });
   }
 
+  tryExtraction() {
+    const dialogRef = this.dialog.open(TryToExtractComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
+
+    dialogRef.afterClosed().subscribe(result => {
+      //this.getAllCollections();
+    });
+  }
+
   editResource(collectionName: string | null, resourceName: string | null, imageBytes: any) {
     this.appService.setCurrentExtractedResourceName(resourceName);
     this.appService.setCurrentExtractedCollectionName(collectionName);
@@ -212,8 +222,9 @@ export class UserAccountComponent implements OnInit {
       next: result => {
         this.getCollection(this.currentCollection);
         console.log(result);
-        if(result === true)
+        if(result === true) {
           this.messageService.add({ severity: 'success', summary: 'Saved!', detail: 'Added to favourites!' });
+        }
         else
           this.messageService.add({ severity: 'success', summary: 'Unsaved!', detail: 'Removed from favourites!' });
       },
@@ -221,6 +232,17 @@ export class UserAccountComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error: ', detail: 'Something went wrong!' });
       }
     });
+  }
+
+  downloadImage(imageBytes: any, imageName: string, type: string) {
+    console.log(type)
+    const withoutHeader = imageBytes.replace(`data:${type.toLowerCase()};base64,`, '')
+    const src = `data:${type};base64,${withoutHeader}`;
+    const link = document.createElement("a")
+    link.href = src
+    link.download = imageName
+    link.click()
+    link.remove()
   }
 
   logout(): void {

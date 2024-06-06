@@ -7,6 +7,10 @@
             <div class="action">
                 <button mat-raised-button (click)="addResource()" style="background-color: #6d1d7b; color: #ffffff; height: 3rem; outline:none;">Upload & embed<mat-icon>add_circle_outline</mat-icon></button>
             </div>
+
+            <div class="action">
+                <button mat-raised-button (click)="tryExtraction()" style="background-color: #6d1d7b; color: #ffffff; height: 3rem; outline:none;">Try to extract<mat-icon>image_search</mat-icon></button>
+            </div>
             
             <div class="action">
                 <div class="user-box" style="display: flex; flex-direction: row; padding: 0.1rem 0.1rem 0.1rem 1rem; border-radius: 25px 50px 50px 25px; border-style: solid; border-color: #6d1d7b;">
@@ -49,8 +53,8 @@
         <aside *ngIf="this.existsAnyCollection === true">
             <div *ngFor="let coll of collectionResources">
                 <div class="collName" (click)="selectCollectionToDisplay(coll)" *ngIf="coll.collectionDTO.name === currentCollection.name" 
-                style="background-color: #87848d; border-top-left-radius: 20px; border-bottom-left-radius: 20px; color: black;">
-                <i class="fa-solid fa-caret-right"></i>   {{coll.collectionDTO.name}}
+                    style="background-color: #87848d; border-top-left-radius: 20px; border-bottom-left-radius: 20px; color: black;">
+                    <i class="fa-solid fa-caret-right"></i>   {{coll.collectionDTO.name}}
                 </div>
                 <div class="collName" (click)="selectCollectionToDisplay(coll)" *ngIf="coll.collectionDTO.name !== currentCollection.name">
                     {{coll.collectionDTO.name}}
@@ -95,14 +99,19 @@
                                                 </div>
                                                 <div class="thumb-content">
                                                     <div class="name-and-fav">
-                                                        <h4>{{this.resources[index].name}}</h4>
-                                                        <button (click)="saveResource(this.currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; outline: none; border: none; margin: 0;">
+                                                        <h4 matTooltip="{{this.resources[index].name}}" matTooltipPosition="above">{{this.resources[index].name}}</h4>
+                                                        <!-- <button (click)="saveResource(this.currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; outline: none; border: none; margin: 0;">
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Unsave"
                                                             matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Save"
                                                             matTooltipPosition="left" *ngIf="!this.resources[index].saved" class="fa-regular fa-bookmark fa-2x" style="color: #adaca9;"></i>
+                                                        </button> -->
+                                                        <button (click)="downloadImage(this.resources[index].imageBytes, (this.resources[index].name || 'image') + '.' + this.resources[index].type?.toLowerCase(), ('image/' + this.resources[index].type).toLowerCase() || 'image/png')" style="background-color: inherit; outline: none; border: none; margin: 0;">
+                                                            <i #tooltip="matTooltip"
+                                                            matTooltip="Download"
+                                                            matTooltipPosition="left" class="fa-solid fa-download fa-2x" style="color: #88857c;"></i>
                                                         </button>
                                                     </div>
                                                     <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description}}</p>
@@ -130,14 +139,19 @@
                                                 </div>
                                                 <div class="thumb-content">
                                                     <div class="name-and-fav">
-                                                        <h4>{{this.resources[index].name}}</h4>
-                                                        <button (click)="saveResource(this.currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; border: none; outline: none; margin: 0;">
+                                                        <h4 matTooltip="{{this.resources[index].name}}" matTooltipPosition="above">{{this.resources[index].name}}</h4>
+                                                        <!-- <button (click)="saveResource(this.currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; border: none; outline: none; margin: 0;">
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Unsave"
                                                             matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Save"
                                                             matTooltipPosition="left" *ngIf="!this.resources[index].saved" class="fa-regular fa-bookmark fa-2x" style="color: #adaca9;"></i>
+                                                        </button> -->
+                                                        <button (click)="downloadImage(this.resources[index].imageBytes, (this.resources[index].name || 'image') + '.' + this.resources[index].type?.toLowerCase(), ('image/' + this.resources[index].type).toLowerCase() || 'image/png')" style="background-color: inherit; outline: none; border: none; margin: 0;">
+                                                            <i #tooltip="matTooltip"
+                                                            matTooltip="Download"
+                                                            matTooltipPosition="left" class="fa-solid fa-download fa-2x" style="color: #88857c;"></i>
                                                         </button>
                                                     </div>
                                                     <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description}}</p>
@@ -171,7 +185,24 @@
         </div>
     </div>
     <div class="collections" *ngIf="this.existsAnyCollection === false && this.timing === true">
-        This will be a short description about the project and algorithms!
+        <h2 class="title-about">About StegoVault</h2>
+        <p style="font-size: large;">StegoVault helps you to keep your secrets in a safe manner. Due to the relative security of the classic encryption methods, steganography offers an additional layer of security by hiding your secret's existence in images.</p>
+        <p style="font-size: large;">If you do not feel safe saving the images that carry your confidential data,  the application offers a way to download and keep it locally. At any time, you can upload again and search for the embedded secret. </p>
+        <h2 class="title-about">Steganographic algorithms</h2>
+        <ul>
+            <li>LSB Replacement</li>
+            <p>LSB Replacement hides a secret by replacing the least significant bit of each pixel.</p>
+            <li>LSB Matching</li>
+            <p>Compared to LSB Replacement, LSB Matching hides a secret by replacing the least significant bit of each pixel by subtracting or adding 1 when the algorithm meets an unmatch.</p>
+            <li>LSB Matching Revisited</li>
+            <p>The LSB Matching Revisited hides two secret bits in two consecutive pixels by modifying only one. It is an improved algorithm that uses a mathematical equation to make the hiding process possible.</p>
+            <li>Binary Hamming Codes</li>
+            <p>It is a powerful algorithm based on the principles of Hamming Code. The primary objective is to minimize the amount of changes a picture must undergo during the hiding process.</p>
+            <li>Random Pixel And Bit Selection</li>
+            <p>Random Pixel And Bit Selection selects the pixels used for the hiding procedure at random to boost security. It also maintains a great concealing capacity.</p>
+            <li>Multi Bit Plane</li>
+            <p>Multi Bit Plane maintains a high degree of imperceptibility by only hiding the secret in noisy regions of an image and its capacity depends on the uploaded image.</p>
+        </ul>
     </div>
     
 </div>

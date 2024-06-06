@@ -12,11 +12,11 @@
             .box {
                 h2 {
                     text-align: center;
-                    color: aliceblue;
+                    color: #6d1d7b;
                 }
                 .error-details {
                     text-align: center;
-                    color: aliceblue;
+                    color: #6d1d7b;
                 }
                 .error-action {
                     display: flex;
@@ -27,11 +27,15 @@
                         margin-bottom: 16px;
                         width: 20%;
                         height: 5vh;
-                        background-color:slateblue;
+                        background-color:#6d1d7b;
                         border-radius: 5px;
                         color: white;
                         cursor: pointer;
                     }
+                }
+                .video {
+                    display: flex;
+                    justify-content: center;
                 }
             }
         }

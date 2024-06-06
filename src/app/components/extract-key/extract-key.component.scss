@@ -32,31 +32,31 @@
         box-shadow: 0 0 30px 10px #ffffff;
         clip-path: inset(0);
         z-index: 0;
-        animation:
-          x 3s ease-in-out alternate;
+        // animation:
+        //   x 3s ease-in-out alternate;
       }
       .resource::after {
         background:#ffffff;
       }
       
-      @keyframes x {
-        to {
-          transform: translateX(-100%);
-          left: 100%;
-        }
-      }
+      // @keyframes x {
+      //   to {
+      //     transform: translateX(-100%);
+      //     left: 100%;
+      //   }
+      // }
       
-      @keyframes y {
-         33% {
-           clip-path: inset(0 0 0 -100px);    
-         }
-         50% {
-           clip-path: inset(0 0 0 0);    
-         }
-         83%{
-           clip-path: inset(0 -100px 0 0); 
-         }
-      }
+      // @keyframes y {
+      //    33% {
+      //      clip-path: inset(0 0 0 -100px);    
+      //    }
+      //    50% {
+      //      clip-path: inset(0 0 0 0);    
+      //    }
+      //    83%{
+      //      clip-path: inset(0 -100px 0 0); 
+      //    }
+      // }
 
     .info {
         display: flex;

@@ -53,6 +53,11 @@
                 background-color: #6d1d7b;
                 width: 30%;
             }
+            button:disabled {
+                color: white;
+                background-color: slategray;
+                width: 30%;
+            }
         }
     }
 }

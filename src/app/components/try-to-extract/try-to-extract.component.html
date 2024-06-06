@@ -1,0 +1,70 @@
+<div class="upload-dialog">
+    
+    <mat-stepper linear #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+          <form>
+            <ng-template matStepLabel>Upload file</ng-template>
+            <div class="first-step-container">
+              <label class="custom-file-upload" *ngIf="!file">
+                <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
+                <i class="fa-solid fa-file-arrow-up fa-4x"></i>Upload file <!-- (BMP, PNG, PPM, PNM, TIF, TIFF) -->
+              </label>
+
+              <label class="custom-file-upload" *ngIf="file && !acceptableFileType()" style="background-color: rgba(88, 30, 93, 0.638);">
+                <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
+                <i class="fa-solid fa-file-arrow-up fa-4x"></i>{{file.name}}
+              </label>
+              
+              <label class="custom-file-upload" *ngIf="file && acceptableFileType()" style="background-color: rgb(193, 116, 116);">
+                <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
+                <i class="fa-solid fa-circle-exclamation fa-4x"></i>Unsupported ile type
+              </label>
+              
+              <div *ngIf="file" class="file-info-box">
+                <section class="file-info">
+                  File details:
+                  <ul>
+                    <li>Name: {{file.name}}</li>
+                    <li>Type: {{file.type}}</li>
+                    <li>Size: {{file.size}} bytes</li>
+                  </ul>
+                </section>
+              </div>
+              <div class="stepper-button-box">
+                <button *ngIf="acceptableFileType()" class="step-button" style="width: 100%; color: white; background-color: #867c87;" mat-button matStepperNext [disabled]="acceptableFileType()" (click)="tryToExtract()">Try to extract</button>
+                <button *ngIf="!acceptableFileType()" class="step-button" style="width: 100%; color: white; background-color: #6d1d7b;" mat-button matStepperNext [disabled]="acceptableFileType()" (click)="tryToExtract()">Try to extract</button>              
+              </div>
+            </div>
+          </form>
+        </mat-step>
+        
+        <mat-step>
+          <ng-template matStepLabel>Result</ng-template>
+          <div class="second-step-container">
+            <div *ngIf="displayMessage === 'none'" class="none">
+              <section [ngSwitch]="status">
+                <p *ngSwitchCase="'uploading'" style="font-weight:bold; font-size: large;"><i class="fa-solid fa-spinner fa-spin fa-6x"></i><br></p>
+                <p>Trying to find message...</p>
+                <p>This can take a while...</p>
+                <p *ngSwitchCase="'success'"><i class="fa-solid fa-check fa-beat fa-6x"></i><br>Done!</p>
+                <p *ngSwitchCase="'fail'"><i class="fa-solid fa-xmark fa-6x"></i><br>Error!</p>
+                <!-- <p *ngSwitchDefault><i class="fa-solid fa-hourglass-end fa-6x"></i><br>Waiting to extract...</p> -->
+              </section>
+            </div>
+            <div *ngIf="displayMessage === 'ok'" class="success">
+                <!-- <p>{{this.msg}}</p> -->
+                <div class="secret-box">
+                    <label for="secret">Embedded secret:</label>
+                    <textarea id="secret" cols="" rows="" aria-readonly="true" disabled>{{this.msg}}</textarea>
+                </div>
+            </div>
+            <div *ngIf="displayMessage === 'error'" class="error">
+                <p>{{this.msg}}</p>
+            </div>
+            <div class="stepper-button-box">
+              <button class="step-button" mat-button (click)="onCloseDialog()">Close</button>
+            </div>
+          </div>
+        </mat-step>
+      </mat-stepper>
+</div>

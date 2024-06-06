@@ -24,6 +24,7 @@ export class EditResourceComponent implements OnInit {
     'name': '',
     'newSecret': ''
   };
+  disabled: boolean = false;
 
   formGroup = this._formBuilder.group({
     fileName: [''],
@@ -66,6 +67,7 @@ export class EditResourceComponent implements OnInit {
   }
 
   editResource() {
+    this.disabled = true;
     this.updateResource.algorithm = this.formGroup.controls['algorithm'].value;
     this.updateResource.name = this.formGroup.controls['fileName'].value;
     this.updateResource.newSecret = this.formGroup.controls['secretToEmbed'].value;
@@ -77,6 +79,7 @@ export class EditResourceComponent implements OnInit {
       ).subscribe({
         next: result => {
           this.messageService.add({ severity: 'success', summary: 'Success: ', detail: 'The resource has been updated.' });
+          this.disabled = false;
           this.onCloseDialog();
           // console.log(result);
         },

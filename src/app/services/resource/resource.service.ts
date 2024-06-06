@@ -61,6 +61,18 @@ export class ResourceService {
     return this.httpClient.post(this.RESOURCE_API + 'upload', postResource, this.httpOptions);
   }
 
+  tryToExtract(postResource: PostResource): Observable<any> {
+    this.httpOptions = {
+      headers: new HttpHeaders(
+        { 
+          'Authorization': 'Bearer ' + this.storageService.getToken(), 
+          'Content-Type': 'application/json'
+        }
+      )
+    }; 
+    return this.httpClient.post(this.RESOURCE_API + 'try-to-extract', postResource, this.httpOptions);
+  }
+
   getResourceByName(resourceName: string, collectionName: string): Observable<any> {
     this.httpOptions = {
       headers: new HttpHeaders(
@@ -82,7 +94,7 @@ export class ResourceService {
         }
       )
     }; 
-    return this.httpClient.get(this.RESOURCE_API + 'info?collectionName=' + encodeURIComponent(collectionName) + '&resourceName=' + encodeURIComponent(resourceName), this.httpOptions);
+    return this.httpClient.get(this.RESOURCE_API + 'info?collectionName=' + encodeURIComponent(collectionName) + '&' + "resourceName=" + encodeURIComponent(resourceName), this.httpOptions);
   }
 
   updateResource(collName: string, resName: string, updateResource: UpdateResource): Observable<any> {

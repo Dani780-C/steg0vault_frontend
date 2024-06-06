@@ -44,8 +44,10 @@
         </div>
 
         <div class="buttons">
-            <button class="step-button" mat-button (click)="onCloseDialog()">Cancel</button>
-            <button class="step-button" mat-button (click)="editResource()">Save</button>
+            <button *ngIf="this.disabled === false" class="step-button" mat-button (click)="onCloseDialog()">Cancel</button>
+            <button *ngIf="this.disabled === true" class="step-button" mat-button (click)="onCloseDialog()" disabled>Cancel</button>
+            <button *ngIf="this.disabled === false" class="step-button" mat-button (click)="editResource()">Save</button>
+            <button *ngIf="this.disabled === true" class="step-button" mat-button (click)="editResource()" disabled>Updating...</button>
         </div>
     
     </div>

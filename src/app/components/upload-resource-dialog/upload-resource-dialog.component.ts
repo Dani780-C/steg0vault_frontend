@@ -25,7 +25,7 @@ export class UploadResourceDialogComponent implements OnInit {
   firstFormGroup = this._formBuilder.group({
     fileName: ['', Validators.required]
   });
-
+  
   secondFormGroup = this._formBuilder.group({
     fileName: ['', Validators.required],
     fileDescription: [''],
@@ -123,6 +123,7 @@ export class UploadResourceDialogComponent implements OnInit {
       this.resourceService.postResource(postResource).subscribe({
         next: () => {
           this.status = "success";
+          console.log(this.myimage)
         },
         error: (error: any) => {
           this.status = "fail";

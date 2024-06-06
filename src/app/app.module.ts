@@ -13,8 +13,9 @@ import { UploadResourceDialogModule } from './components/upload-resource-dialog/
 import { HttpClientModule } from '@angular/common/http';
 import { EditResourceModule } from './components/edit-resource/edit-resource.module';
 import { DeletePromptModule } from './components/delete-prompt/delete-prompt.module';
-import { DeleteCollectionPromptComponent } from './components/delete-collection-prompt/delete-collection-prompt.component';
 import { DeleteCollectionPromptModule } from './components/delete-collection-prompt/delete-collection-prompt.module';
+import { TryToExtractComponent } from './components/try-to-extract/try-to-extract.component';
+import { TryToExtractModule } from './components/try-to-extract/try-to-extract.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { DeleteCollectionPromptModule } from './components/delete-collection-pro
     HttpClientModule,
     EditResourceModule,
     DeletePromptModule,
-    DeleteCollectionPromptModule
+    DeleteCollectionPromptModule,
+    TryToExtractModule
   ],
   providers: [],
   bootstrap: [AppComponent]

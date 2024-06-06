@@ -136,6 +136,12 @@
             color: #343131;
             background: #b9b6b6;
             -webkit-tap-highlight-color: transparent;
+        
+            span {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+            }
         }
         
         aside .collName:hover {
@@ -399,11 +405,14 @@
 	border: none;
 }
 .carousel-indicators div {	
-	background: #555;
+	// background: #555;	
+	// background: #873434;
+    background: #ababab;
     cursor: pointer;
 }
 .carousel-indicators div.active {	
-	background: #ababab;
+	// background: #ababab;
+	background: #555;	
 }
 
 .resource-buttons {
@@ -442,4 +451,13 @@
     }
 }
 
-
+ul {
+    list-style-type: none;
+    li {
+        font-size: large;
+        font-weight: bolder;
+    }
+    p {
+        font-size: large;
+    }
+}
