@@ -6,6 +6,7 @@ import { USER_ALREADY_EXISTS_ERROR_CODE } from 'src/app/constants/constants';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { AppService } from 'src/app/services/app/app.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +15,7 @@ import { AppService } from 'src/app/services/app/app.service';
 })
 export class RegisterComponent {
 
+  clicked: boolean = false;
   status: "initial" | "pressed" | "success" | "fail" = "initial";
 
   registerForm = new FormGroup({
@@ -28,10 +30,13 @@ export class RegisterComponent {
     private router: Router, 
     private storageService: StorageService,
     private appService: AppService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private userService: UserService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.clicked = false;
+  }
   
   onSubmit(): void {
     if (this.registerForm.valid) {
@@ -43,6 +48,16 @@ export class RegisterComponent {
           this.storageService.setToken('token', result['token'] as string);
           this.storageService.setCurrentlyLoggedUserEmail(this.email.value);
           this.appService.setExistsAnyCollection(false);
+          this.userService.getUserInfo().subscribe({
+            next: result => {
+              localStorage.setItem('name', result.lastName + ' ' + result.firstName)
+              localStorage.setItem('createdAt', result.createdAt)
+              localStorage.setItem('modifiedAt', result.modifiedAt)
+            },
+            error: err => {
+            }
+          });
+          
           this.router.navigate(['/home']);
         },
         error: error => {
@@ -69,6 +84,16 @@ export class RegisterComponent {
 
   get lastname() {
     return this.registerForm.controls['lastName'];
+  }
+
+  validNames() {
+    if((this.firstname.value?.length || 0) > 30) return false;
+    if((this.lastname.value?.length || 0) > 30) return false;
+    return true;
+  }
+
+  switchCheckbox() {
+    this.clicked = !this.clicked;
   }
 
 }

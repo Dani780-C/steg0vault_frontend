@@ -15,7 +15,8 @@
             <div class="action">
                 <div class="user-box" style="display: flex; flex-direction: row; padding: 0.1rem 0.1rem 0.1rem 1rem; border-radius: 25px 50px 50px 25px; border-style: solid; border-color: #6d1d7b;">
                     <div class="user" style="color: #000000; text-align: center; align-self: center; margin: 0;">
-                        <p style="margin: 0; padding-right: 1rem; font-size: larger;">{{email}}</p>
+                        <p style="margin: 0; padding-right: 1rem; font-size: larger;">{{fullName}}</p>
+                        <p style="margin: 0; padding-right: 1rem; font-size: large; color: #474343;">{{email}}</p>
                     </div>
                     <button mat-fab matTooltip="Primary" #tooltip="matTooltip"
                         matTooltip="Account"
@@ -25,20 +26,29 @@
                         <mat-icon>account_circle</mat-icon>
                     </button>
                     <mat-menu #belowMenuForAccountButton="matMenu" yPosition="below">
-                        <!-- <div class="user-info" style="padding: 10px; border-bottom-style: solid; border-bottom-color: slateblue;">
-                            <div class="user-name" style="display: flex; flex-direction: row; margin-bottom: 10px;">
-                                <i class="fa-solid fa-user fa-2x" style="padding-right: 10px;"></i>
-                                <p style="margin: 4px 0 0 0; width: 100%; text-align: left;">Daniel Cirlan</p>
-                            </div>
-                            <div class="user-email" style="display: flex; flex-direction: row; margin-bottom: 10px;">
-                                <i class="fa-solid fa-at fa-2x" style="padding-right: 10px;"></i>
-                                <p style="margin: 4px 0 0 0; width: 100%; text-align: left;">{{email}}</p>
-                            </div>
-                        </div> -->
                         <button mat-menu-item (click)="logout()">
                             <div style="display: flex; flex-direction: row;">
                                 <i class="fa-solid fa-right-from-bracket fa-2x" style="color: #ff0000; padding-right: 10px;"></i>
                                 <p style="width: 100%; margin: 4px 0 0 0; color: red; text-align: center;">Logout</p>
+                            </div>
+                        </button>
+                        <button mat-menu-item (click)="changePassword()">
+                            <div style="display: flex; flex-direction: row;">
+                                <i class="fa fa-key fa-2x" aria-hidden="true" style="color: #6d1d7b; padding-right: 10px;"></i>
+                                <p style="width: 100%; margin: 4px 0 0 0; text-align: center;">Change Password</p>
+                            </div>
+                        </button>
+
+                        <button mat-menu-item (click)="editUser()">
+                            <div style="display: flex; flex-direction: row;">
+                                <i class="fas fa-edit fa-2x" style="color: #6d1d7b; padding-right: 10px;"></i>
+                                <p style="width: 100%; margin: 4px 0 0 0;  text-align: center;">Edit profile</p>
+                            </div>
+                        </button>
+                        <button mat-menu-item (click)="deleteAccount()">
+                            <div style="display: flex; flex-direction: row;">
+                                <i class="fa-solid fa-user-minus fa-2x" style="color: #ff0000; padding-right: 10px;"></i>
+                                <p style="width: 100%; margin: 4px 0 0 0; color: red; text-align: center;">Delete account</p>
                             </div>
                         </button>
                     </mat-menu>
@@ -67,16 +77,22 @@
     </div>
     
     <div class="collections" *ngIf="this.existsAnyCollection === true">
-        <div class="collection-container">
+        <div class="collection-container" *ngIf="refreshed === true">
             <div class="collection-header">
-                <p class="collection-name">{{currentCollection.name}}</p>
-                <!-- <button #tooltip="matTooltip"
-                matTooltip="Edit collection" class="edit-collection-button" (click)="editCollection()" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-pen" style="color: #B197FC;"></i></button> -->
+                <p class="collection-name">{{currentCollection.name?.substring(0, 40)}}</p>
+                <button class="see-more" style="margin: 0 0 3px 0;" *ngIf="this.currentCollection.name !== '' && (this.currentCollection.name?.length || 0) > 40" (click)="seeMore(currentCollection.name)">... see more</button>
+                <div class="dates">
+                    <p>Created at {{currentCollection.createdAt}}</p>
+                    <p *ngIf="currentCollection.modifiedAt !== null">Last modified at {{currentCollection.modifiedAt}}</p>
+                </div>
+                <button #tooltip="matTooltip"
+                matTooltip="Edit collection" class="edit-collection-button" (click)="updateCollection(this.currentCollection.name || '', this.currentCollection.description || '')" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-pen" style="color: #B197FC;"></i></button>
                 <button #tooltip="matTooltip"
                 matTooltip="Delete collection" class="delete-collection-button" (click)="deleteCollection(this.currentCollection.name || '')" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-trash" style="color: #9c5e5e;"></i></button>
             </div>
             <div class="collection-description">
-                <p *ngIf="this.currentCollection.description !== ''" class="card-description">{{currentCollection.description}}</p>
+                <p *ngIf="this.currentCollection.description !== ''" class="card-description">{{currentCollection.description?.substring(0, 40)}}</p>
+                <button class="see-more" *ngIf="this.currentCollection.description !== '' && (this.currentCollection.description?.length || 0) > 40" (click)="seeMore(currentCollection.description)">... see more</button>
                 <p *ngIf="this.currentCollection.description === ''" class="card-description">No description</p>                                    
             </div>
             <div class="container-xl">
@@ -85,40 +101,42 @@
                         <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0">
                             
                             <div class="carousel-indicators">
-                                <div data-target="#carousel" data-slide-to=0 class="active"></div>
-                                <div data-target="#carousel" attr.data-slide-to={{number}} *ngFor="let number of numberOfSlides"></div>
+                                <div data-target="#carousel" attr.data-slide-to={{bigI}} class="active" id="active"></div>
+                                <div data-target="#carousel" attr.data-slide-to={{number}} *ngFor="let number of numberOfSlides" id="indicator"></div>
                             </div>
                             
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
+                                <div class="carousel-item active" *ngIf="refreshed === true" id="principal">
                                     <div class="row">
                                         <div class="col-sm-4" *ngFor="let index of matrix[0]">
                                             <div class="thumb-wrapper">
                                                 <div class="img-box">
-                                                    <img [src]='this.resources[index].imageBytes' class="img-fluid" alt="Image">
+                                                    <img *ngIf="this.resources[index].imageBytes !== ''" [src]='this.resources[index].imageBytes' class="img-fluid" alt="Image">
+                                                    <div *ngIf="this.resources[index].imageBytes === '' && ready === true" class="spinner-img-alt">
+                                                        <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+                                                    </div>
                                                 </div>
                                                 <div class="thumb-content">
                                                     <div class="name-and-fav">
-                                                        <h4 matTooltip="{{this.resources[index].name}}" matTooltipPosition="above">{{this.resources[index].name}}</h4>
-                                                        <!-- <button (click)="saveResource(this.currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; outline: none; border: none; margin: 0;">
-                                                            <i #tooltip="matTooltip"
-                                                            matTooltip="Unsave"
-                                                            matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
-                                                            <i #tooltip="matTooltip"
-                                                            matTooltip="Save"
-                                                            matTooltipPosition="left" *ngIf="!this.resources[index].saved" class="fa-regular fa-bookmark fa-2x" style="color: #adaca9;"></i>
-                                                        </button> -->
+                                                        <h4 matTooltip="{{this.resources[index].name}}" matTooltipPosition="above">{{this.resources[index].name?.substring(0, 30)}}<span *ngIf="(this.resources[index].name?.length || 0) > 30">...</span> </h4>
                                                         <button (click)="downloadImage(this.resources[index].imageBytes, (this.resources[index].name || 'image') + '.' + this.resources[index].type?.toLowerCase(), ('image/' + this.resources[index].type).toLowerCase() || 'image/png')" style="background-color: inherit; outline: none; border: none; margin: 0;">
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Download"
                                                             matTooltipPosition="left" class="fa-solid fa-download fa-2x" style="color: #88857c;"></i>
                                                         </button>
                                                     </div>
-                                                    <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description}}</p>
+                                                    <div class="resource-dates">
+                                                        <p>Created at {{resources[index].createdAt}}</p>
+                                                        <p *ngIf="resources[index].modifiedAt !== null">Modified at {{resources[index].modifiedAt}}</p>
+                                                    </div>
+                                                    <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description?.substring(0, 85)}}
+                                                        <button class="see-more" *ngIf="this.resources[index].description !== '' && (this.resources[index].description?.length || 0) > 85" (click)="seeMore(this.resources[index].description)">... see more</button>
+                                                    </p>
+                            
                                                     <p *ngIf="this.resources[index].description === ''" class="card-description">No description</p>
                                                     <div class="resource-buttons">
                                                         <button mat-mini-fab #tooltip="matTooltip"
-                                                        matTooltip="Extract key"
+                                                        matTooltip="Extract secret"
                                                         color="primary" class="resource-button" style="width: 35%; border-radius: 5px; background-color: #6d1d7b;" (click)="extractKey(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>vpn_key</mat-icon><p style="margin: 0; padding: 0 0 0 10px; font-weight: bold; align-content: center;">Extract</p></button>
                                                         <button #tooltip="matTooltip"
                                                         matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
@@ -135,30 +153,31 @@
                                         <div class="col-sm-4" *ngFor="let index of matrix[number]">
                                             <div class="thumb-wrapper">
                                                 <div class="img-box">
-                                                    <img src={{this.resources[index].imageBytes}} class="img-fluid" alt="Image">
+                                                    <img *ngIf="this.resources[index].imageBytes !== ''" [src]='this.resources[index].imageBytes' class="img-fluid" alt="Image">
+                                                    <div *ngIf="this.resources[index].imageBytes === '' && ready === true" class="spinner-img-alt">
+                                                        <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+                                                    </div>
                                                 </div>
                                                 <div class="thumb-content">
                                                     <div class="name-and-fav">
-                                                        <h4 matTooltip="{{this.resources[index].name}}" matTooltipPosition="above">{{this.resources[index].name}}</h4>
-                                                        <!-- <button (click)="saveResource(this.currentCollection.name || '', this.resources[index].name || '')" style="background-color: inherit; border: none; outline: none; margin: 0;">
-                                                            <i #tooltip="matTooltip"
-                                                            matTooltip="Unsave"
-                                                            matTooltipPosition="left" *ngIf="this.resources[index].saved" class="fa-solid fa-bookmark fa-2x" style="color: #FFD43B;"></i>
-                                                            <i #tooltip="matTooltip"
-                                                            matTooltip="Save"
-                                                            matTooltipPosition="left" *ngIf="!this.resources[index].saved" class="fa-regular fa-bookmark fa-2x" style="color: #adaca9;"></i>
-                                                        </button> -->
+                                                        <h4 matTooltip="{{this.resources[index].name}}" matTooltipPosition="above">{{this.resources[index].name?.substring(0, 30)}}<span *ngIf="(this.resources[index].name?.length || 0) > 30">...</span> </h4>
                                                         <button (click)="downloadImage(this.resources[index].imageBytes, (this.resources[index].name || 'image') + '.' + this.resources[index].type?.toLowerCase(), ('image/' + this.resources[index].type).toLowerCase() || 'image/png')" style="background-color: inherit; outline: none; border: none; margin: 0;">
                                                             <i #tooltip="matTooltip"
                                                             matTooltip="Download"
                                                             matTooltipPosition="left" class="fa-solid fa-download fa-2x" style="color: #88857c;"></i>
                                                         </button>
                                                     </div>
-                                                    <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description}}</p>
+                                                    <div class="resource-dates">
+                                                        <p>Created at {{resources[index].createdAt}}</p>
+                                                        <p *ngIf="resources[index].modifiedAt !== null">Modified at {{resources[index].modifiedAt}}</p>
+                                                    </div>
+                                                    <p *ngIf="this.resources[index].description !== ''" class="card-description">{{this.resources[index].description?.substring(0, 85)}}
+                                                        <button class="see-more" *ngIf="this.resources[index].description !== '' && (this.resources[index].description?.length || 0) > 85" (click)="seeMore(this.resources[index].description)">... see more</button>
+                                                    </p>
                                                     <p *ngIf="this.resources[index].description === ''" class="card-description">No description</p>
                                                     <div class="resource-buttons">
                                                         <button mat-mini-fab #tooltip="matTooltip"
-                                                        matTooltip="Extract key"
+                                                        matTooltip="Extract secret"
                                                         color="primary" class="resource-button" style="width: 35%; border-radius: 5px; background-color: #6d1d7b;" (click)="extractKey(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)"><mat-icon>vpn_key</mat-icon><p style="margin: 0; padding: 0 0 0 10px; font-weight: bold; align-content: center;">Extract</p></button>
                                                         <button #tooltip="matTooltip"
                                                         matTooltip="Edit resource" class="resource-button" (click)="editResource(currentCollection.name, this.resources[index].name, this.resources[index].imageBytes)" style="background-color: inherit; border: none; outline: none;"><i class="fa-solid fa-pen fa-2x" style="color: #73669a;"></i></button>
@@ -172,10 +191,10 @@
                                 </div>
                             </div>
                         
-                            <a *ngIf="resources.length > 3" class="carousel-control-prev" href="#carousel" data-slide="prev" style="border: none; outline: none;">
+                            <a *ngIf="resources.length > 3" class="carousel-control-prev" href="#carousel" data-slide="prev" style="border: none; outline: none;" (click)="left()">
                                 <i class="fa-solid fa-angle-left" style="color: #c2bcd2;"></i>
                             </a>
-                            <a *ngIf="resources.length > 3" class="carousel-control-next" href="#carousel" data-slide="next" style="border: none; outline: none;">
+                            <a *ngIf="resources.length > 3" class="carousel-control-next" href="#carousel" data-slide="next" style="border: none; outline: none;" (click)="right()">
                                 <i class="fa-solid fa-angle-right" style="color: #c2bcd2;"></i>
                             </a>
                         </div>
@@ -213,28 +232,3 @@
     [life]="2000"
     [position]="'top-center'">
 </p-toast>
-
-
-
-
-
-
-            <!-- <div class="action-search-bar">
-                <input type="text"
-                    placeholder="Resource name..."
-                    aria-label="Text"
-                    matInput
-                    [formControl]="myControl"
-                    [matAutocomplete]="auto"
-                    class="search-box">
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                        {{option}}<mat-icon *ngIf="option === 'One'">collections</mat-icon>
-                        <mat-icon *ngIf="option !== 'One'">image</mat-icon>
-                    </mat-option>
-                </mat-autocomplete>
-                <button mat-button #tooltip="matTooltip"
-                matTooltip="Search"
-                matTooltipPosition="right"
-                class="search-button"><mat-icon>search</mat-icon></button>
-            </div> -->

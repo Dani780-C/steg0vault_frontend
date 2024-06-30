@@ -1,0 +1,72 @@
+
+<div class="container">
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-card-body">
+                <div class="header-item">
+                    <section [ngSwitch]="status">
+                        <fa-icon *ngSwitchCase="'pressed'" class="fa-solid fa-spinner fa-spin fa-3x"></fa-icon>
+                        <fa-icon *ngSwitchCase="'success'" class="fa-solid fa-check fa-beat fa-3x"></fa-icon>
+                        <fa-icon *ngSwitchCase="'fail'" class="fa-solid fa-xmark fa-3x"></fa-icon>
+                        <fa-icon *ngSwitchDefault class="fa-solid fa-user fa-3x"></fa-icon>
+                    </section>
+                </div>
+                <div class="header-item">
+                    <h2>Create new admin</h2>
+                </div>
+                <p class="info-message">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please enter admin
+                    details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="firstname">First name <span *ngIf="(firstname.value?.length || 0) <= 30" style="color:green;">{{firstname.value?.length}}/30</span> <span *ngIf="(firstname.value?.length || 0) > 30" style="color:red;">{{firstname.value?.length}}/30</span>  </label>
+                        <input type="firstName" id="firstname" placeholder="First name" class="form-control" formControlName="firstName"
+                            name="firstname" />
+                        <small *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="block p-error">
+                            <div *ngIf="firstname.errors?.['required']">First name is required</div>
+                            <div *ngIf="firstname.errors?.['pattern']">First name should contain only letters</div>
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Last name <span *ngIf="(lastname.value?.length || 0) <= 30" style="color:green;">{{lastname.value?.length}}/30</span> <span *ngIf="(lastname.value?.length || 0) > 30" style="color:red;">{{lastname.value?.length}}/30</span>  </label>
+                        <input type="lastName" id="lastname" placeholder="Last name" class="form-control" formControlName="lastName"
+                            name="lastname" />
+                        <small *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="block p-error">
+                            <div *ngIf="lastname.errors?.['required']">Last name is required</div>
+                            <div *ngIf="lastname.errors?.['pattern']">Last name should contain only letters</div>
+                        </small>    
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Email" class="form-control" formControlName="email"
+                            name="email" />
+                        <small *ngIf="email.invalid && (email.dirty || email.touched)" class="block p-error">
+                            <div *ngIf="email.errors?.['required']">Email is required</div>
+                            <div *ngIf="email.errors?.['email']">Email should be valid</div>
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Password" class="form-control"
+                            formControlName="password" name="password" />
+                        <small *ngIf="password.invalid && (password.dirty || password.touched)" class="block p-error">
+                            <div *ngIf="password.errors?.['required']">Password is required</div>
+                        </small>
+                        <div style="margin-top: 10px;">
+                            Password must contain: <br>
+                            <small *ngIf="password.value === null || !password.value.match('[A-Z]')" style="margin: 0; color: red"><i class="fa-solid fa-x"></i> at least 1 uppercase letter<br></small>
+                            <small *ngIf="password.value !== null && password.value.match('[A-Z]')" style="margin: 0; color: green;"><i class="fa-solid fa-check"></i> at least 1 uppercase letter<br></small>
+                            <small *ngIf="password.value === null || !password.value.match('[a-z]')" style="margin: 0; color:red"><i class="fa-solid fa-x"></i> at least 1 lowercase letter<br></small>
+                            <small *ngIf="password.value !== null && password.value.match('[a-z]')" style="margin: 0; color: green;"><i class="fa-solid fa-check"></i> at least 1 lowercase letter<br></small>
+                            <small *ngIf="password.value === null || !password.value.match('[0-9]')" style="margin: 0; color: red"><i class="fa-solid fa-x"></i> at least 1 digit<br></small>
+                            <small *ngIf="password.value !== null && password.value.match('[0-9]')" style="margin: 0; color: green;"><i class="fa-solid fa-check"></i> at least 1 digit<br></small>
+                            <small *ngIf="password.value === null || 8 > password.value.length" style="margin: 0; color: red"><i class="fa-solid fa-x"></i> at least 8 characters<br></small>
+                            <small *ngIf="password.value !== null && password.value.length >= 8" style="margin: 0; color: green;"><i class="fa-solid fa-check"></i> at least 8 characters<br></small> 
+                        </div>
+                    </div>
+                    <input type="submit" class="register-button" value="Create admin" [disabled]="registerForm.invalid || validNames() === false">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

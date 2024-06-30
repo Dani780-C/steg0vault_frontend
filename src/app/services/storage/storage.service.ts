@@ -11,6 +11,10 @@ export class StorageService {
     localStorage.setItem(key, token);
   }
 
+  deleteJwtToken() {
+    localStorage.removeItem('token');
+  }
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }

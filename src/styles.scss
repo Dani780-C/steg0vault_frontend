@@ -1,5 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-// @import "bootstrap/scss/bootstrap";
+
 body {
     padding: 0;
     margin: 0;
@@ -7,29 +6,11 @@ body {
     width: 100vw;
     overflow-x: hidden;
     overflow-y: auto;
-	// background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-    // background-color: rgb(255, 255, 255);
-    // background-color: rgb(29, 26, 26);
-
-    // background-color: rgb(39, 37, 37);
-    // background: linear-gradient(244deg, #411ed2, #2b0ab7, #4415a5, #2e1c54);
-    // background-size: 800% 800%;
-
-    // animation: AnimationName 13s ease infinite;
 }
 
-// .mat-mdc-menu-panel {
-//     // position: fixed !important;
-//     height: 170px !important;
-//     // overflow-y: scroll;
-//   }
-
-
-// @keyframes AnimationName {
-//     0%{background-position:0% 72%}
-//     50%{background-position:100% 29%}
-//     100%{background-position:0% 72%}
-// }
+.mat-mdc-menu-panel {
+    height: 23vh !important;
+  }
 
 .mat-horizontal-stepper-wrapper {
     width: 100% !important;
@@ -47,4 +28,8 @@ body {
             }
         }
     }
+}
+
+.mat-mdc-checkbox label {
+    margin: 0 !important;
 }

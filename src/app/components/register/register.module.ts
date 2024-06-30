@@ -6,7 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 const routes: Routes = [
   {
@@ -24,7 +24,8 @@ const routes: Routes = [
     CommonModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    ToastModule
+    ToastModule,
+    MatCheckboxModule
   ],
   providers: [MessageService],
   exports: [RouterModule]

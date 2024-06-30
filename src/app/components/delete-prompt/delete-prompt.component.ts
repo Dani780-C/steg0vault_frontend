@@ -46,12 +46,9 @@ export class DeletePromptComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Success: ', detail: 'The resource has been removed.' });
         this.appService.setDeleted(true);
         this.onCloseDialog();
-        // console.log(result);
       },
       error: err => {
         this.messageService.add({ severity: 'error', summary: 'Failed: ', detail: 'The resource has not been removed.' });
-        // console.log("error ");
-        // console.log(err);
       }
     });;
   }

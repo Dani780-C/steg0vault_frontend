@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="title">
+        <h3 mat-dialog-title>Delete account</h3>
+    </div>
+    <div>
+        <p style="font-size: large; font-weight: bold;">Are you sure?</p>
+        <p>
+            <i class="fa-solid fa-triangle-exclamation" style="color: rgb(195, 22, 22);"></i>
+            <span style="color: red; font-weight: bolder;"> Warning! This action will delete all your collections and resources! At any time, you will be able to create another account!</span>
+        </p>
+    </div>
+    <div>
+        <div class="buttons">
+            <button class="close-button" mat-button (click)="onCloseDialog()">Cancel</button>
+            <button class="delete-button" mat-button (click)="deleteAccount()">Delete</button>
+        </div>
+    </div>
+</div>

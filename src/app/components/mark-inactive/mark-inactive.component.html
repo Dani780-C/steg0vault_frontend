@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="title">
+        <h3 mat-dialog-title>Mark <span style="font-weight: bold;">{{user}}</span> as inactive</h3>
+    </div>
+    <div>
+        <p>
+            <i class="fa-solid fa-triangle-exclamation" style="color: rgb(195, 22, 22);"></i>
+            <span style="color: red; font-weight: bolder;"> Warning! This action will delete all user's collections and resources!</span>
+            <br>
+        </p>
+        <div style="margin: 12px 0; align-content: center; align-items: center;">
+            <mat-checkbox style="font-size: larger;" (click)="switchCheckbox()"><span style="font-weight: bolder;"> If you see anything incorrect, please check this box to send the user an email explaining why his account was terminated!</span></mat-checkbox>
+        </div>  
+    </div>
+    <div>
+        <div class="buttons">
+            <button class="close-button" mat-button (click)="onCloseDialog()">Cancel</button>
+            <button class="delete-button" mat-button (click)="markAsInactive()">Delete</button>
+        </div>
+    </div>
+</div>

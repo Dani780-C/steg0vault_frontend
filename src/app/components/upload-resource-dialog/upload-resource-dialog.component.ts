@@ -16,7 +16,7 @@ import { ResourceService } from 'src/app/services/resource/resource.service';
 export class UploadResourceDialogComponent implements OnInit {
   
   collectionResources: CollectionResources[] = new Array();
-  algorithms: string[] = new Array('LSB_REPLACEMENT', 'LSB_MATCHING', 'LSB_MATCHING_REVISITED', 'BINARY_HAMMING_CODES', 'RANDOM_PIXEL_SELECTION', 'MULTI_BIT_PLANE');
+  algorithms: string[] = new Array();
   status: "initial" | "uploading" | "success" | "fail" = "initial";
   file: File | null = null;
   myimage: string = '';
@@ -56,7 +56,7 @@ export class UploadResourceDialogComponent implements OnInit {
   validateFilename(): boolean {
     
     for(let i=0 ;i<this.collectionResources.length;i++){
-      if(this.collectionResources[i].collectionDTO.name===this.collection.value){
+      if(this.collectionResources[i].collectionDTO.name?.trim()===this.collection.value?.trim()){
         for(let j=0 ;j<this.collectionResources[i].resourceNameAndDescriptionDTO.length;j++){
           if(this.collectionResources[i].resourceNameAndDescriptionDTO[j].name.trim() === this.fileName.value?.trim()){
             return true;
@@ -69,6 +69,7 @@ export class UploadResourceDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllCollections();
+    this.getAllAlgorithms();
   }
 
   getAllCollections() {
@@ -80,7 +81,18 @@ export class UploadResourceDialogComponent implements OnInit {
         });
       },
       error: err => {
-        console.log(err);
+      }
+    });
+  }
+
+  getAllAlgorithms() {
+    this.resourceService.getAllAlgorithms().subscribe({
+      next: result => {
+        result.forEach((alg: string) => {
+          this.algorithms.push(alg);
+        });
+      },
+      error: err => {
       }
     });
   }
@@ -104,16 +116,21 @@ export class UploadResourceDialogComponent implements OnInit {
     if (this.file) {
       const postResource : PostResource = {
         resourceDTO: {
+          id: 0,
           name: (this.fileName.value !== null) ? this.fileName.value.trim() : null,
           type: this.file.type,
-          description: this.fileDescription.value,
+          description: this.fileDescription.value?.trim() || '',
           algorithm: this.algorithm.value,
           saved: false,
-          imageBytes: this.myimage
+          imageBytes: this.myimage,
+          createdAt: '',
+          modifiedAt: ''
         },
         collectionDTO: {
           name: (this.collection.value !== null) ? this.collection.value.trim() : null,
-          description: this.collectionDescription.value
+          description: this.collectionDescription.value?.trim() || '',
+          createdAt: '',
+          modifiedAt: ''
         },
         secretToEmbed: this.secretToEmbed.value,
       };
@@ -123,7 +140,6 @@ export class UploadResourceDialogComponent implements OnInit {
       this.resourceService.postResource(postResource).subscribe({
         next: () => {
           this.status = "success";
-          console.log(this.myimage)
         },
         error: (error: any) => {
           this.status = "fail";
@@ -134,7 +150,6 @@ export class UploadResourceDialogComponent implements OnInit {
   }
 
   reset(): void {
-    console.log('reset');
     this.file = null;
     this.firstFormGroup.patchValue({'fileName': ''});
     this.secondFormGroup.patchValue(
@@ -189,7 +204,6 @@ export class UploadResourceDialogComponent implements OnInit {
   }
 
   getData() {
-    console.log(this.secondFormGroup);
   }
 
   acceptableFileType(): boolean {
@@ -210,6 +224,20 @@ export class UploadResourceDialogComponent implements OnInit {
     this.readFile(file);
   }
   
+  validCollData() {
+    if((this.collection.value?.length || 0) > 100) return false;
+    if((this.collectionDescription.value?.length || 0) > 255) return false;
+    return true;;
+  }
+
+  validNames() {
+    if((this.collection.value?.length || 0) > 100) return false;
+    if((this.collectionDescription.value?.length || 0) > 255) return false;
+    if((this.fileName.value?.length || 0) > 100) return false;
+    if((this.fileDescription.value?.length || 0) > 255) return false;
+    return true;;
+  }
+
   readFile(file: File) {
     const filereader = new FileReader();
     filereader.readAsDataURL(file);

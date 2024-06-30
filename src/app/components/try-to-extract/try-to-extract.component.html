@@ -48,13 +48,11 @@
                 <p>This can take a while...</p>
                 <p *ngSwitchCase="'success'"><i class="fa-solid fa-check fa-beat fa-6x"></i><br>Done!</p>
                 <p *ngSwitchCase="'fail'"><i class="fa-solid fa-xmark fa-6x"></i><br>Error!</p>
-                <!-- <p *ngSwitchDefault><i class="fa-solid fa-hourglass-end fa-6x"></i><br>Waiting to extract...</p> -->
               </section>
             </div>
             <div *ngIf="displayMessage === 'ok'" class="success">
-                <!-- <p>{{this.msg}}</p> -->
                 <div class="secret-box">
-                    <label for="secret">Embedded secret:</label>
+                    <label for="secret">Embedded secret <span style="color: green; font-weight: bolder;">(Algorithm: {{algName}})</span>:</label>
                     <textarea id="secret" cols="" rows="" aria-readonly="true" disabled>{{this.msg}}</textarea>
                 </div>
             </div>

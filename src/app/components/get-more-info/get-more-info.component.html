@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="logs-box">
+        <h3>User Logs</h3>
+        <div *ngFor="let log of userDetails.userLogs" class="logs" style="display: flex; flex-direction: row;">
+            <p *ngIf="log.name === 'CREATE'" style="background-color: green; color: white;">{{log.name}}</p>
+            <p *ngIf="log.name === 'UPDATE'" style="background-color: yellow; color: black;">{{log.name}}</p>
+            <p *ngIf="log.name === 'DELETE'" style="background-color: red; color: white;">{{log.name}}</p>
+            <p>{{ " " + log.info}}</p>
+        </div>
+    </div>
+    <div class="logs-box">
+        <h3>Collections Logs | {{userDetails.numberOfCollections}} <span style="color: green;">active</span> collections</h3>
+        <div *ngFor="let collection of userDetails.collectionLogs" class="logs" style="display: flex; flex-direction: column;">
+            <h4>{{collection.name}}</h4>
+            <div *ngFor="let log of collection.actionList" class="logs" style="display: flex; flex-direction: row;">
+                <p *ngIf="log.name === 'CREATE'" style="background-color: green; color: white;">{{log.name}}</p>
+                <p *ngIf="log.name === 'UPDATE'" style="background-color: yellow; color: black;">{{log.name}}</p>
+                <p *ngIf="log.name === 'DELETE'" style="background-color: red; color: white;">{{log.name}}</p>
+                <p>{{ " " + log.info}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="logs-box">
+        <h3>Resources Logs | {{userDetails.numberOfResources}} <span style="color: green;">active</span> resources</h3>
+        <div *ngFor="let resource of userDetails.resourceLogs" class="logs" style="display: flex; flex-direction: column;">
+            <h4>{{resource.name}}</h4>
+            <div *ngFor="let log of resource.actionList" class="logs" style="display: flex; flex-direction: row;">
+                <p *ngIf="log.name === 'CREATE'" style="background-color: green; color: white;">{{log.name}}</p>
+                <p *ngIf="log.name === 'UPDATE'" style="background-color: yellow; color: black;">{{log.name}}</p>
+                <p *ngIf="log.name === 'DELETE'" style="background-color: red; color: white;">{{log.name}}</p>
+                <p>{{ " " + log.info}}</p>
+            </div>
+        </div>
+    </div>
+</div>

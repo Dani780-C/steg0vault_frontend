@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CollectionResources } from '../../interfaces/collection-resources';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,18 @@ export class AppService {
   currentExtractedCollectionName: any;
   currentBytes: any;
   currentCollectionName: string = '';
+  currentCollectionDescription: string = '';
   currentResourceName: string = '';
   deleteCollection: boolean = false;
   existsAnyColl: boolean = false;
   deleted: boolean = false;
   collDeleted: boolean = false;
   resLength: number = 0;
+  collectionResources: CollectionResources[] = new Array();
+  userId: number = 0;
+  userToBeDeleted: string = '';
+  algName: string = '';
+  str: string = '';
 
   constructor() { }
 
@@ -26,6 +33,30 @@ export class AppService {
     return this.currentExtractedResourceName;
   }
 
+  setSeeMoreStr(str: string) {
+    this.str = str;
+  }
+
+  getSeeMoreStr() {
+    return this.str;
+  }
+
+  setAlgName(name: string) {
+    this.algName = name;
+  }
+
+  getAlgName() {
+    return this.algName;
+  }
+
+  setUserToBeDeleted(email: string) {
+    this.userToBeDeleted = email;
+  }
+
+  getUserToBeDeleted() {
+    return this.userToBeDeleted;
+  }
+
   setCurrentExtractedCollectionName(name: string | null) {
     this.currentExtractedCollectionName = name;
   }
@@ -33,6 +64,15 @@ export class AppService {
   getCurrentExtractedCollectionName() {
     return this.currentExtractedCollectionName;
   }
+
+  setUserId(id: number) {
+    this.userId = id;
+  }
+
+  getUserId() {
+    return this.userId;
+  }
+
 
   setCurrentBytes(bytes: any) {
     this.currentBytes = bytes;
@@ -46,8 +86,16 @@ export class AppService {
     this.currentCollectionName = collectionName;
   }
 
+  setCurrentCollectionDescription(collDescr: string) {
+    this.currentCollectionDescription = collDescr;
+  }
+
   getCurrentCollectionName() {
     return this.currentCollectionName;
+  }
+
+  getCurrentCollectionDescription() {
+    return this.currentCollectionDescription;
   }
 
   setCurrentResourceName(resourceName: string) {
@@ -96,6 +144,14 @@ export class AppService {
 
   getResLength() {
     return this.resLength;
+  }
+
+  setAllCollections(collections: CollectionResources[]) {
+    this.collectionResources = collections;
+  }
+
+  getAllCollections() {
+    return this.collectionResources;
   }
 
 }

@@ -1,0 +1,19 @@
+.container {
+    width: 80vw;
+    height: 80vh;
+    padding: 20px;
+    overflow-x: hidden;
+
+    .logs-box {
+        border-top-style: solid;
+        padding-top: 10px;
+        border-top-width: 4px;
+        border-color: gray;
+    }
+
+    p {
+        padding: 6px;
+        border-radius: 6px;
+    }
+
+}

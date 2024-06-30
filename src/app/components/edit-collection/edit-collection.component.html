@@ -1,1 +1,45 @@
-<p>edit-collection works!</p>
+
+<div class="container-dialog">
+    <div class="info-resource" [formGroup]="formGroup">
+        <div class="field">
+            <h1>Edit collection</h1>
+        </div>
+        <div class="field">
+            <label for="name">Type a new name <span *ngIf="(getName()?.length || 0) <= 100" style="color:green;">{{getName()?.length}}/100</span> <span *ngIf="(getName()?.length || 0) > 100" style="color:red;">{{getName()?.length}}/100</span>  </label>
+            <input type="text" 
+                id="name" 
+                placeholder="New collection name" 
+                class="form-control" 
+                formControlName="name"
+                name="fileName" value="this.formGroup['name'].value"/>
+                <div style="margin-top: 1px;">
+                    <small *ngIf="getName() === ''" style="margin: 0; color: red">Name cannot be empty<br></small>
+                    <small *ngIf="valid() === false && getName() !== ''" style="margin: 0; color: red">Name already exists!<br></small>
+                </div>
+        </div>
+        
+        <div class="field">
+            <label for="description">New description <span *ngIf="(getDescription()?.length || 0) <= 255" style="color:green;">{{getDescription()?.length}}/255</span> <span *ngIf="(getDescription()?.length || 0) > 255" style="color:red;">{{getDescription()?.length}}/255</span>  </label>
+            <textarea type="text" 
+                id="description" 
+                placeholder="New description" 
+                class="form-control" 
+                formControlName="description"
+                name="description"></textarea>
+        </div>
+        
+        <div class="buttons">
+            <button class="step-button" mat-button (click)="onCloseDialog()" [disabled]="disabled === true">Cancel</button>
+            <button *ngIf="this.disabled === false" class="step-button" mat-button (click)="editCollection()" [disabled]="valid() === false || validNames() === false">Save</button>
+            <button *ngIf="this.disabled === true" class="step-button" mat-button (click)="editCollection()" disabled>Updating...</button>
+        </div>
+    
+    </div>
+</div>
+
+<p-toast  
+    [showTransitionOptions]="'500ms'" 
+    [hideTransitionOptions]="'1000ms'" 
+    [life]="2000"
+    [position]="'top-center'">
+</p-toast>

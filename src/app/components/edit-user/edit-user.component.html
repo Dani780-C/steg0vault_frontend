@@ -1,0 +1,42 @@
+
+<div class="container-dialog">
+    <div class="info-resource" [formGroup]="formGroup">
+        <div class="field">
+            <h1>Edit user</h1>
+            <p *ngIf="lastModifiedAt !== null" style="color: rgb(100, 95, 95); margin: 0;">Last modified at <span style="font-weight: bold;">{{lastModifiedAt}}</span></p>
+        </div>
+        <div class="form-group">
+            <label for="firstname">First name <span *ngIf="(firstname.value?.length || 0) <= 30" style="color:green;">{{firstname.value?.length}}/30</span> <span *ngIf="(firstname.value?.length || 0) > 30" style="color:red;">{{firstname.value?.length}}/30</span> </label>
+            <input type="firstName" id="firstname" placeholder="First name" class="form-control" formControlName="firstName"
+                name="firstname" />
+            <small *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="block p-error">
+                <div *ngIf="firstname.errors?.['required']">First name is required</div>
+                <div *ngIf="firstname.errors?.['pattern']">First name should contain only letters</div>
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last name <span *ngIf="(lastname.value?.length || 0) <= 30" style="color:green;">{{lastname.value?.length}}/30</span> <span *ngIf="(lastname.value?.length || 0) > 30" style="color:red;">{{lastname.value?.length}}/30</span> </label>
+            <input type="lastName" id="lastname" placeholder="Last name" class="form-control" formControlName="lastName"
+                name="lastname" />
+            <small *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="block p-error">
+                <div *ngIf="lastname.errors?.['required']">Last name is required</div>
+                <div *ngIf="lastname.errors?.['pattern']">Last name should contain only letters</div>
+            </small>
+        </div>
+        
+        <div class="buttons">
+            <button *ngIf="this.disabled === false" class="step-button" mat-button (click)="onCloseDialog()">Cancel</button>
+            <button *ngIf="this.disabled === true" class="step-button" mat-button (click)="onCloseDialog()" disabled>Cancel</button>
+            <button *ngIf="this.disabled === false" class="step-button" mat-button (click)="editUser()" [disabled]="formGroup.invalid || validNames() === false">Save</button>
+            <button *ngIf="this.disabled === true" class="step-button" mat-button (click)="editUser()" disabled>Updating...</button>
+        </div>
+    
+    </div>
+</div>
+
+<p-toast  
+    [showTransitionOptions]="'500ms'" 
+    [hideTransitionOptions]="'1000ms'" 
+    [life]="2000"
+    [position]="'top-center'">
+</p-toast>

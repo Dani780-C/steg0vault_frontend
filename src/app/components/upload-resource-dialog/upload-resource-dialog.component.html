@@ -14,7 +14,7 @@
                 <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
                 <i class="fa-solid fa-file-arrow-up fa-4x"></i>{{file.name}}
               </label>
-              
+
               <label class="custom-file-upload" *ngIf="file && acceptableFileType()" style="background-color: rgb(193, 116, 116);">
                 <input type="file" accept="image/*" class="file-input" (change)="onChange($event)" #fileUpload/>
                 <i class="fa-solid fa-circle-exclamation fa-4x"></i>Unsupported file type
@@ -46,15 +46,15 @@
                 <div *ngIf="createCollectionBoolean === false" class="select-collection">
                   <label for="selectCollectionButton">Collection name</label>
                   <button id="selectCollectionButton" mat-raised-button [matMenuTriggerFor]="collectionMenu" *ngIf="collection.value === ''">Select collection<mat-icon>collections</mat-icon></button>
-                  <button id="selectCollectionButton" mat-raised-button [matMenuTriggerFor]="collectionMenu" *ngIf="collection.value !== ''">{{collection.value}}<mat-icon>collections</mat-icon></button>
+                  <button id="selectCollectionButton" mat-raised-button [matMenuTriggerFor]="collectionMenu" *ngIf="collection.value !== ''">{{collection.value?.substring(0, 30)}}<span *ngIf="(collection.value?.length || 0) > 30">...</span> <mat-icon>collections</mat-icon></button>
                   <mat-menu #collectionMenu="matMenu">
-                    <button mat-menu-item *ngFor="let collectionResource of collectionResources" (click)="setCollection(collectionResource.collectionDTO.name)">{{collectionResource.collectionDTO.name}}</button>
                     <button mat-menu-item (click)="createCollection()" style="background-color: rgb(196, 169, 221);">Create new collection</button>
+                    <button mat-menu-item *ngFor="let collectionResource of collectionResources" (click)="setCollection(collectionResource.collectionDTO.name)">{{collectionResource.collectionDTO.name?.substring(0, 55)}}<span *ngIf="(collectionResource.collectionDTO.name?.length || 0) > 55">...</span> </button>
                   </mat-menu>
                 </div>
                 <div *ngIf="createCollectionBoolean === true" class="create-collection">
                   <div class="create-collection-input">
-                    <label for="collection">New collection name</label>
+                    <label for="collection">New collection name <span *ngIf="(collection.value?.length || 0) <= 100" style="color:green;">{{collection.value?.length}}/100</span> <span *ngIf="(collection.value?.length || 0) > 100" style="color:red;">{{collection.value?.length}}/100</span> </label>
                     <input type="collection" id="collection" placeholder="Collection name" class="form-control" formControlName="collection"
                         name="collection"/>
                     <small *ngIf="collection.invalid && (collection.dirty || collection.touched)" class="block p-error">
@@ -65,18 +65,18 @@
                     </small>
                   </div>
                   <div class="collectiondescription">
-                    <label for="collectionDescription">Collection description</label>
+                    <label for="collectionDescription">Collection description <span *ngIf="(collectionDescription.value?.length || 0) <= 255" style="color:green;">{{collectionDescription.value?.length}}/255</span> <span *ngIf="(collectionDescription.value?.length || 0) > 255" style="color:red;">{{collectionDescription.value?.length}}/255</span>  </label>
                     <textarea type="collectionDescription" id="collectionDescription" placeholder="Collection description" class="form-control" formControlName="collectionDescription"
                         name="collectionDescription"></textarea>
                   </div>
                   <div class="create-collection-buttons">
-                    <button mat-button (click)="setCollection(collection.value)">Save</button>
+                    <button mat-button (click)="setCollection(collection.value)" [disabled]="validCollData() === false">Save</button>
                     <button mat-button (click)="setCollection(collection.value)">Cancel</button>
                   </div>
                 </div>
               </div>
               <div class="filename">
-                <label for="fileName">File name</label>
+                <label for="fileName">File name <span *ngIf="(fileName.value?.length || 0) <= 100" style="color:green;">{{fileName.value?.length}}/100</span> <span *ngIf="(fileName.value?.length || 0) > 100" style="color:red;">{{fileName.value?.length}}/100</span>  </label>
                 <input type="fileName" id="fileName" placeholder="File name" class="form-control" formControlName="fileName"
                     name="fileName" />
                 <small *ngIf="fileName.invalid && (fileName.dirty || fileName.touched)" class="block p-error">
@@ -87,7 +87,7 @@
                 </small>
               </div>
               <div class="filedescription">
-                <label for="fileDescription">File description</label>
+                <label for="fileDescription">File description <span *ngIf="(fileDescription.value?.length || 0) <= 255" style="color:green;">{{fileDescription.value?.length}}/255</span> <span *ngIf="(fileDescription.value?.length || 0) > 255" style="color:red;">{{fileDescription.value?.length}}/255</span>  </label>
                 <textarea type="fileDescription" id="fileDescription" placeholder="File description" class="form-control" formControlName="fileDescription"
                     name="fileDescription"></textarea>
               </div>
@@ -95,7 +95,7 @@
                 <label for="selectAlgorithmButton">Algorithm</label>
                 <div class="select-algorithm">
                   <button id="selectAlgorithmButton" mat-raised-button [matMenuTriggerFor]="algorithmMenu" *ngIf="algorithm.value === ''">Select algorithm<mat-icon>flash_on</mat-icon></button>
-                  <button id="selectAlgorithmButton" mat-raised-button [matMenuTriggerFor]="algorithmMenu" *ngIf="algorithm.value !== ''">{{algorithm.value}}<mat-icon>flash_on</mat-icon></button>
+                  <button id="selectAlgorithmButton" mat-raised-button [matMenuTriggerFor]="algorithmMenu" *ngIf="algorithm.value !== ''">{{algorithm.value?.substring(0, 30)}}<span *ngIf="(algorithm.value?.length || 0) > 30">...</span> <mat-icon>flash_on</mat-icon></button>
                   <mat-menu #algorithmMenu="matMenu" style="width: 100%;">
                     <button mat-menu-item *ngFor="let algorithm of algorithms" (click)="setAlgorithm(algorithm)">{{algorithm}}</button>
                   </mat-menu>
@@ -111,7 +111,7 @@
               </div>
               <div class="stepper-button-box">
                 <button class="step-button" style="width: 30%; color: white;"  mat-button matStepperPrevious>Back</button>
-                <button class="step-button" style="width: 30%; color: white;"  mat-button matStepperNext [disabled]="secondFormGroup.invalid || (validateFilename() === true)">Next</button>
+                <button class="step-button" style="width: 30%; color: white;"  mat-button matStepperNext [disabled]="secondFormGroup.invalid || (validateFilename() === true) || validNames() === false">Next</button>
               </div>
             </div>
           </form>
@@ -119,26 +119,18 @@
         <mat-step>
           <ng-template matStepLabel>Done</ng-template>
           <div class="third-step-container">
-            <!-- <div>
-              <p>You are now done.</p>
-              <p>Collection: </p>
-              <p>File name: </p>
-              <p>Algorithm: </p>
-              <p>Secret to embed: </p>
-            </div> -->
             <div>
               <section [ngSwitch]="status">
                 <p *ngSwitchCase="'uploading'"><i class="fa-solid fa-spinner fa-spin fa-4x"></i><br>Uploading...</p>
                 <p *ngSwitchCase="'success'"><i class="fa-solid fa-check fa-beat fa-4x"></i><br>Done!</p>
-                <p *ngSwitchCase="'fail'"><i class="fa-solid fa-xmark fa-4x"></i><br>Error!</p>
+                <p *ngSwitchCase="'fail'"><i class="fa-solid fa-xmark fa-4x"></i><br>Error!<br> This message is too long to be embedded! <br> Try another algorithm or a shorter secret!</p>
                 <p *ngSwitchDefault><i class="fa-solid fa-hourglass-end fa-4x"></i><br>Waiting to upload...</p>
               </section>
             </div>
             <div class="stepper-button-box">
               <button *ngIf="status === 'initial'" class="step-button" style="width: 30%; color: white;" mat-button matStepperPrevious>Back</button>
               <button *ngIf="status === 'uploading'" class="step-button" style="width: 30%; color: white;" mat-button matStepperPrevious>Back</button>
-              <!-- <button *ngIf="status === 'success'" class="step-button" style="width: 30%; color: white;" mat-button (click)="stepper.reset(); reset()">New upload</button> -->
-              <button *ngIf="status === 'initial'" class="step-button" style="width: 30%; color: white;" mat-button (click)="onUpload()">Upload</button>
+              <button *ngIf="status === 'initial'" class="step-button" style="width: 30%; color: white;" mat-button (click)="onUpload()" [disabled]="validNames() === false">Upload</button>
               <button *ngIf="status === 'uploading'" class="step-button" style="width: 30%; color: white;" mat-button disabled>Upload</button>
               <button *ngIf="status === 'success' || status === 'fail'" class="step-button" style="width: 30%; color: white;" mat-button (click)="onCloseDialog()">Close</button>
             </div>
@@ -146,61 +138,3 @@
         </mat-step>
       </mat-stepper>
 </div>
-
-<!-- 
-<mat-step [stepControl]="secondFormGroup">
-  <form [formGroup]="secondFormGroup">
-    <ng-template matStepLabel>Fill out details</ng-template>
-    <div class="second-step-container">
-      <div class="details">
-        <div class="collection-and-filename">
-          <h4>Collection & file name</h4>
-          <div *ngIf="createCollectionBoolean === false" class="select-collection">
-            <button mat-raised-button [matMenuTriggerFor]="collectionMenu" *ngIf="collection === ''">Select collection<mat-icon>collections</mat-icon></button>
-            <button mat-raised-button [matMenuTriggerFor]="collectionMenu" *ngIf="collection !== ''">{{collection}}</button>
-            <mat-menu #collectionMenu="matMenu">
-              <button mat-menu-item *ngFor="let collection of collections" (click)="setCollection(collection)">{{collection}}</button>
-              <button mat-menu-item (click)="createCollection()">Create new collection</button>
-            </mat-menu>
-          </div>
-          <div *ngIf="createCollectionBoolean === true" class="create-collection">
-            <mat-form-field>
-              <mat-label>New collection name</mat-label>
-              <input matInput formControlName="collection" placeholder="Collection name" required>
-            </mat-form-field>
-            <div class="create-collection-buttons">
-              <button mat-button (click)="setCollection('123')">Save</button>
-              <button mat-button (click)="setCollection('')">Cancel</button>
-            </div>
-          </div>
-          <mat-form-field class="filename">
-            <mat-label>File name</mat-label>
-            <input matInput formControlName="fileName" placeholder="File name" required>
-          </mat-form-field>
-        </div>
-        
-        <div class="algorithm-and-message">
-          <h4>Algorithm & secret to embed</h4>
-          <div class="select-algorithm">
-            <button mat-raised-button [matMenuTriggerFor]="algorithmMenu" *ngIf="algorithm === ''">Select algorithm<mat-icon>flash_on</mat-icon></button>
-            <button mat-raised-button [matMenuTriggerFor]="algorithmMenu" *ngIf="algorithm !== ''">{{algorithm}}</button>
-            <mat-menu #algorithmMenu="matMenu">
-              <button mat-menu-item *ngFor="let algorithm of algorithms" (click)="setAlgorithm(algorithm)">{{algorithm}}</button>
-            </mat-menu>
-          </div>
-          <div class="message">
-            <mat-form-field>
-              <mat-label>Secret to embed</mat-label>
-              <textarea matInput formControlName="secretToEmbed" placeholder="Secret to embed" required></textarea> 
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext [disabled]="secondFormGroup.invalid">Next</button>
-      </div>
-    </div>
-  </form>
-</mat-step> -->

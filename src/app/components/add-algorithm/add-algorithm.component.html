@@ -1,0 +1,29 @@
+
+<div class="container">
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-card-body">
+                <div class="header-item">
+                </div>
+                <div class="header-item">
+                    <h2>Create new algorithm</h2>
+                </div>
+                <p class="info-message"></p>
+                <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="firstname">Algorithm name  <span *ngIf="(algorithmName.value?.length || 0) <= 100" style="color:green;">{{algorithmName.value?.length}}/100</span> <span *ngIf="(algorithmName.value?.length || 0) > 100" style="color:red;">{{algorithmName.value?.length}}/100</span>   </label>
+                        <input type="firstName" id="firstname" placeholder="Algorithm name" class="form-control" formControlName="algorithmName"
+                            name="firstname" />
+                        <small *ngIf="algorithmName.invalid && (algorithmName.dirty || algorithmName.touched)" class="block p-error">
+                            <div *ngIf="algorithmName.errors?.['required']">Algorithm name is required</div>
+                        </small>
+                        <small *ngIf="existsAlready() === true" class="block p-error">
+                            <div>Algorithm name is already used</div>
+                        </small>
+                    </div>
+                    <input type="submit" class="register-button" value="Create algorithm" [disabled]="existsAlready() === true || registerForm.invalid || validName() === false">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

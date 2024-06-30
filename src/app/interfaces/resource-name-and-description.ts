@@ -1,4 +1,6 @@
 export interface ResourceNameAndDescription {
     name: string,
-    description: string
+    description: string,
+    createdAt: string,
+    modifiedAt: string
 }

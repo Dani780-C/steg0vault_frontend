@@ -8,17 +8,21 @@
             <h1>Edit resource</h1>
         </div>
         <div class="field">
-            <label for="fileName">Type a new name</label>
+            <label for="fileName">Type a new name <span *ngIf="(getName()?.length || 0) <= 100" style="color:green;">{{getName()?.length}}/100</span> <span *ngIf="(getName()?.length || 0) > 100" style="color:red;">{{getName()?.length}}/100</span>  </label>
             <input type="text" 
                 id="fileName" 
                 placeholder="New file name" 
                 class="form-control" 
                 formControlName="fileName"
                 name="fileName" value="this.formGroup['fileName'].value"/>
+            <div style="margin-top: 1px;">
+                <small *ngIf="getName() === ''" style="margin: 0; color: red">Name cannot be empty<br></small>
+                <small *ngIf="valid() === false && getName() !== ''" style="margin: 0; color: red">Name already exists in collection<br></small>
+            </div>
         </div>
         
         <div class="field">
-            <label for="description">New description</label>
+            <label for="description">New description <span *ngIf="(getDescription()?.length || 0) <= 255" style="color:green;">{{getDescription()?.length}}/255</span> <span *ngIf="(getDescription()?.length || 0) > 255" style="color:red;">{{getDescription()?.length}}/255</span> </label>
             <textarea type="text" 
                 id="description" 
                 placeholder="New description" 
@@ -28,11 +32,11 @@
         </div>
 
         <div class="field">
-            <label for="algorithm">Choose a new algorithm</label>
+            <label for="algorithm">Move to an existing collection</label>
             <div>
-                <button id="algorithm" mat-raised-button [matMenuTriggerFor]="algorithmMenu">{{this.formGroup.controls['algorithm'].value}}<mat-icon>flash_on</mat-icon></button>
-                <mat-menu #algorithmMenu="matMenu">
-                    <button mat-menu-item *ngFor="let algorithm of algorithms" (click)="setAlgorithm(algorithm)">{{algorithm}}</button>
+                <button id="algorithm" mat-raised-button [matMenuTriggerFor]="algorithmMenu">{{this.formGroup.controls['newCollection'].value?.substring(0, 30)}}<span *ngIf="(this.formGroup.controls['newCollection'].value?.length || 0) > 30" >...</span> <mat-icon>collections</mat-icon></button>
+                <mat-menu #algorithmMenu="matMenu" id="coll-list">
+                    <button mat-menu-item *ngFor="let coll of collectionResources" (click)="setNewCollection(coll.collectionDTO.name || '')">{{coll.collectionDTO.name?.substring(0, 55)}}<span *ngIf="(coll.collectionDTO.name?.length || 0) > 55">...</span> </button>
                 </mat-menu>
             </div>
         </div>
@@ -40,14 +44,16 @@
         <div class="field">
             <label for="secretToEmbed">New secret to embed</label>
             <textarea type="text" id="secretToEmbed" placeholder="Secret to embed" class="form-control" formControlName="secretToEmbed"
-                        name="secretToEmbed"></textarea>    
+                        name="secretToEmbed"></textarea>      
+            <div style="margin-top: 1px;">
+                <small style="margin: 0; color: rgb(112, 84, 6);"><i class="fa-solid fa-triangle-exclamation" style="color: rgb(112, 84, 6);"></i> Warning! If you type another secret, the embedded one will be lost!<br></small>
+            </div>    
         </div>
 
         <div class="buttons">
-            <button *ngIf="this.disabled === false" class="step-button" mat-button (click)="onCloseDialog()">Cancel</button>
-            <button *ngIf="this.disabled === true" class="step-button" mat-button (click)="onCloseDialog()" disabled>Cancel</button>
-            <button *ngIf="this.disabled === false" class="step-button" mat-button (click)="editResource()">Save</button>
-            <button *ngIf="this.disabled === true" class="step-button" mat-button (click)="editResource()" disabled>Updating...</button>
+            <button class="step-button" mat-button (click)="onCloseDialog()" [disabled]="disabledCancel">Cancel</button>
+            <button *ngIf="disabled === false" class="step-button" mat-button (click)="editResource()" [disabled]="valid() === false || validNames() === false">Save</button>
+            <button *ngIf="valid() === true && disabled === true" class="step-button" mat-button (click)="editResource()" [disabled]="disabled">Updating...</button>
         </div>
     
     </div>

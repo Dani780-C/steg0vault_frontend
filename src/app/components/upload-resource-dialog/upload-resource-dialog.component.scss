@@ -5,14 +5,6 @@
   .mat-mdc-form-field {
     margin-top: 16px;
   }
-
-  // .mat-horizontal-stepper-header .mat-step-icon-selected {
-  //   background-color: #6d1d7b !important;
-  // }
-  // .mat-step-icon-selected {
-  //   background-color: #6d1d7b !important;
-  // }
-
   
 
 .upload-dialog {
@@ -37,7 +29,6 @@
           display: none;
         }
         .custom-file-upload {
-          // word-wrap: break-word;
           width: 50%;
           height: 50%;
           border: 1px solid #ccc;
@@ -96,7 +87,6 @@
             border-style: solid;
             border-color: #6d1d7b;
             border-radius: 10px;
-            // margin: 30px;
             padding: 10px;
             .create-collection-input {
               width: 100%;
@@ -107,9 +97,7 @@
               }
             }
             .collectiondescription {
-              // margin: 15px 0 15px 0;
               width: 100%;
-              // height: 20%;
               margin-bottom: 10px;
               #collectionDescription {
                 height: 100%;
@@ -170,18 +158,7 @@
         div {
           margin: 180px;
         }
-        // div:last-of-type {
-        //   margin-top: auto;
-        //   display: flex;
-        //   flex-direction: row;
-        //   justify-content: space-around;
-        //   align-items: center;
-        //   // margin-right: 35px;
-        // }
         .stepper-button-box {
-          // display: flex;
-          // flex-direction: row;
-          // justify-content: space-around;
           margin: auto 0 180px 0;
           display: flex;
           flex-direction: row;
@@ -203,62 +180,3 @@
 .cdk-overlay-pane {
   width: 50vw;
 }
-
-// .details {
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-around;
-//   align-items: center;
-//   width: 100%;
-//   height: 80%;
-//   .collection-and-filename {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content:baseline;
-//     align-items: center;
-//     width: 45%;
-//     height: 100%;
-//     border: solid;
-//     border-radius: 10px;
-//     border-color: #c8c8c8;
-//     .select-collection {
-//       height: 40%;
-//       width: 100%;
-//     }
-//     .create-collection {
-//       height: 40%;
-//       width: 100%;
-//     }
-//     .filename {
-//       // height: 20%;
-//       width: 90%;
-//       // padding: 10px;
-//     }
-//   }
-//   .algorithm-and-message {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: baseline;
-//     align-items: center;
-//     width: 45%;
-//     height: 100%;
-//     border: solid;
-//     border-radius: 10px;
-//     border-color: #c8c8c8;
-//     .select-algorithm {
-//       height: 40%;
-//       width: 100%;
-//     }
-//     .message {
-//       height: 40%;
-//       width: 90%;
-//       mat-form-field {
-//         height: 100%;
-//         width: 100%;
-//       }
-//     }
-//   }
-//   h4 {
-//     margin-top: 5px;
-//   }
-// }

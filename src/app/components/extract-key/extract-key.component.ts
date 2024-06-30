@@ -40,12 +40,8 @@ export class ExtractKeyComponent implements OnInit {
           this.result.imageBytes = result.imageBytes;
           this.result.algorithm = result.algorithm;
           this.result.name = result.name;
-          console.log(this.result);
         },
         error: err => {
-          console.log(this.appService.getCurrentExtractedResourceName(),
-          this.appService.getCurrentExtractedCollectionName());
-          console.log(err);
         }
       });
     }

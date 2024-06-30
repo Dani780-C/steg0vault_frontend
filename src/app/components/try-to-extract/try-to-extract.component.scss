@@ -4,16 +4,7 @@
   
   .mat-mdc-form-field {
     margin-top: 16px;
-  }
-
-  // .mat-horizontal-stepper-header .mat-step-icon-selected {
-  //   background-color: #6d1d7b !important;
-  // }
-  // .mat-step-icon-selected {
-  //   background-color: #6d1d7b !important;
-  // }
-
-  
+  }  
 
 .upload-dialog {
     width: 50vw;
@@ -37,7 +28,6 @@
           display: none;
         }
         .custom-file-upload {
-          // word-wrap: break-word;
           width: 50%;
           height: 50%;
           border: 1px solid #ccc;
@@ -101,8 +91,6 @@
                     margin-top: 1rem;
                 }
                 #secret {
-                    // overflow-y: auto;
-                    // font-style: oblique;
                     font-size: large;
                     width: 100%;
                     height: 100%;
@@ -141,62 +129,3 @@
 .cdk-overlay-pane {
   width: 50vw;
 }
-
-// .details {
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-around;
-//   align-items: center;
-//   width: 100%;
-//   height: 80%;
-//   .collection-and-filename {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content:baseline;
-//     align-items: center;
-//     width: 45%;
-//     height: 100%;
-//     border: solid;
-//     border-radius: 10px;
-//     border-color: #c8c8c8;
-//     .select-collection {
-//       height: 40%;
-//       width: 100%;
-//     }
-//     .create-collection {
-//       height: 40%;
-//       width: 100%;
-//     }
-//     .filename {
-//       // height: 20%;
-//       width: 90%;
-//       // padding: 10px;
-//     }
-//   }
-//   .algorithm-and-message {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: baseline;
-//     align-items: center;
-//     width: 45%;
-//     height: 100%;
-//     border: solid;
-//     border-radius: 10px;
-//     border-color: #c8c8c8;
-//     .select-algorithm {
-//       height: 40%;
-//       width: 100%;
-//     }
-//     .message {
-//       height: 40%;
-//       width: 90%;
-//       mat-form-field {
-//         height: 100%;
-//         width: 100%;
-//       }
-//     }
-//   }
-//   h4 {
-//     margin-top: 5px;
-//   }
-// }

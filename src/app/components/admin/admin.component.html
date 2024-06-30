@@ -1,0 +1,177 @@
+<div class="container-functions">
+    <div class="header">
+        <div class="logo">
+            <img src="../../assets/logo-6.png" alt="Logo image">
+        </div>
+        <div class="action-list">
+            
+            <div class="action">
+                <div class="user-box" style="display: flex; flex-direction: row; padding: 0.1rem 0.1rem 0.1rem 1rem; border-radius: 25px 50px 50px 25px; border-style: solid; border-color: #6d1d7b;">
+                    <div class="user" style="color: #000000; text-align: center; align-self: center; margin: 0;">
+                        <p style="margin: 0; padding-right: 1rem; font-size: larger;">{{fullName}}</p>
+                        <p style="margin: 0; padding-right: 1rem; font-size: large; color: #474343;">{{mail}}</p>
+                    </div>
+                    <button mat-fab matTooltip="Primary" #tooltip="matTooltip"
+                        matTooltip="Account"
+                        matTooltipPosition="below" color="primary" aria-label="Example fab with a heart icon" [matMenuTriggerFor]="belowMenuForAccountButton"
+                        style="background-color: #6d1d7b;"
+                        >
+                        <mat-icon>account_circle</mat-icon>
+                    </button>
+                    <mat-menu #belowMenuForAccountButton="matMenu" yPosition="below">
+                        <button mat-menu-item (click)="logout()">
+                            <div style="display: flex; flex-direction: row;">
+                                <i class="fa-solid fa-right-from-bracket fa-2x" style="color: #ff0000; padding-right: 10px;"></i>
+                                <p style="width: 100%; margin: 4px 0 0 0; color: red; text-align: center;">Logout</p>
+                            </div>
+                        </button>
+                        <button mat-menu-item (click)="changePassword()">
+                            <div style="display: flex; flex-direction: row;">
+                                <i class="fa fa-key fa-2x" aria-hidden="true" style="color: #6d1d7b; padding-right: 10px;"></i>
+                                <p style="width: 100%; margin: 4px 0 0 0; text-align: center;">Change Password</p>
+                            </div>
+                        </button>
+
+                        <button mat-menu-item (click)="editUser()">
+                            <div style="display: flex; flex-direction: row;">
+                                <i class="fas fa-edit fa-2x" style="color: #6d1d7b; padding-right: 10px;"></i>
+                                <p style="width: 100%; margin: 4px 0 0 0;  text-align: center;">Edit profile</p>
+                            </div>
+                        </button>
+                        <button mat-menu-item disabled>
+                            <div style="display: flex; flex-direction: row;">
+                                <i class="fa-solid fa-user-minus fa-2x" style="color: #ff0000; padding-right: 10px;"></i>
+                                <p style="width: 100%; margin: 4px 0 0 0; color: red; text-align: center;">Delete account</p>
+                            </div>
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-name-action">
+    <h2 style="color: #474343; margin-right: 30px;">Users</h2>
+    <div class="action">
+        <button mat-raised-button style="background-color: #6d1d7b; color: #ffffff; height: 3rem; outline:none;" (click)="addAdmin()">Add admin<mat-icon>add_cirlce</mat-icon></button>
+    </div>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+  
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="lastActiveDate">
+        <th mat-header-cell *matHeaderCellDef> Last modified at </th>
+        <td mat-cell *matCellDef="let element"> 
+            <p *ngIf="element.lastActiveDate=== null" style="margin: 0;"> UNMODIFIED </p>
+            <p *ngIf="element.lastActiveDate!== null" style="color: green; margin: 0;"> {{element.lastActiveDate}} </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Created at </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="deletedAt">
+        <th mat-header-cell *matHeaderCellDef> Deleted at </th>
+        <td mat-cell *matCellDef="let element"> 
+            <p *ngIf="element.deletedAt === null" style="color: green; margin: 0;"> ACTIVE </p>
+            <p *ngIf="element.deletedAt !== null" style="color: red; margin: 0;"> {{element.deletedAt}} </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element"> 
+            <div class="action" style="justify-content: space-between;">
+                <button mat-raised-button style="border-style: none; background-color: white; outline: none;" [disabled]="element.deletedAt !== null" (click)="markAsInactive(element.id, element.email)">Mark as inactive<mat-icon style="color: red; outline: none; border-style: none;">delete</mat-icon></button>
+                <button mat-raised-button style="border-style: none; background-color: white; text-align: center;" (click)="getMoreInfo(element.id)">More info</button>
+                <button mat-raised-button style="border-style: none; background-color: white; text-align: center;" [disabled]="element.deletedAt !== null" (click)="seeResources(element.id)">Resources</button>
+            </div>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator 
+        #userPaginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+
+
+  <div class="table-name-action">
+    <h2 style="color: #474343; margin-right: 30px;">Algorithms</h2>
+    <div class="action">
+        <button mat-raised-button style="background-color: #6d1d7b; color: #ffffff; height: 3rem; outline:none;" (click)="addAlgorithm()">Add algorithm<mat-icon>add_cirlce</mat-icon></button>
+    </div>
+</div>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSourceAlg" >
+  
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Created at </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="deletedAt">
+        <th mat-header-cell *matHeaderCellDef> Disabled at </th>
+        <td mat-cell *matCellDef="let element"> 
+            <p *ngIf="element.deletedAt === null" style="color: green; margin: 0;"> ACTIVE </p>
+            <p *ngIf="element.deletedAt !== null" style="color: red; margin: 0;"> {{element.deletedAt}} </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="action" style="justify-content: space-between;">
+                <button mat-raised-button style="border-style: none; background-color: white; outline: none;" (click)="disableAlgorithm(element.name)" *ngIf="element.deletedAt === null">Disable<mat-icon style="color: red; outline: none; border-style: none;">delete</mat-icon></button>
+                <button mat-raised-button style="border-style: none; background-color: white; outline: none;" (click)="enableAlgorithm(element.name)" *ngIf="element.deletedAt !== null">Enable<mat-icon style="color: green; outline: none; border-style: none;">redo</mat-icon></button>
+                <button mat-raised-button style="border-style: none; background-color: white; text-align: center;" (click)="seeAlgInfo(element.name)">More info</button>
+            </div>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsAlg"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsAlg;"></tr>
+    </table>
+  </div>
+
+  <p-toast  
+    [showTransitionOptions]="'500ms'" 
+    [hideTransitionOptions]="'1000ms'" 
+    [life]="2000"
+    [position]="'top-center'">
+</p-toast>

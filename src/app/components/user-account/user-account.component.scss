@@ -3,9 +3,6 @@
         width: 100vw;
         display: flex;
         flex-direction: row;
-        // background: rgb(55,22,60);
-        // background: rgb(255, 255, 255);
-        // background: linear-gradient(180deg, rgba(55,22,60,1) 0%, rgba(34,25,32,1) 31%, rgba(32,25,30,1) 66%, rgba(29,26,26,1) 100%);
         background: linear-gradient(180deg, rgb(174, 170, 170) 0%, rgb(210, 207, 207) 31%, rgb(205, 201, 201) 66%, rgb(201, 197, 197) 100%);
         .logo {
             margin: 10px;
@@ -109,7 +106,6 @@
             width: 100%;
             padding-left: 1rem;
             height: 92%;
-            // background-color: #64287490;
             background-color: rgba(182, 171, 183, 0.528);
             border-radius: 20px;
             display: flex;
@@ -126,7 +122,6 @@
             font-size: x-large;
             margin: 0.2rem 0;
             color: #000000;
-            display: block;
             padding: 0.5rem;
             padding-left: 1rem;
             padding-right: 1rem;
@@ -136,6 +131,12 @@
             color: #343131;
             background: #b9b6b6;
             -webkit-tap-highlight-color: transparent;
+
+
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
         
             span {
                 display: -webkit-box;
@@ -145,40 +146,15 @@
         }
         
         aside .collName:hover {
-            // color: #ffffff;
             background: #a2a1a1;
             outline: none;
             position: relative;
-            // background-color: #856285;
-            // background-color: #cdc5cd;
             border-top-left-radius: 20px;
             border-bottom-left-radius: 20px;
             cursor: pointer;
         }
         
-        // aside div:hover::after {
-        //     content: "";
-        //     position: absolute;
-        //     background-color: transparent;
-        //     bottom: 100%;
-        //     right: 0;
-        //     height: 35px;
-        //     width: 35px;
-        //     // border-bottom-right-radius: 18px;
-        //     box-shadow: 0 20px 0 0 #fff;
-        // }
         
-        // aside div:hover::before {
-        //     content: "";
-        //     position: absolute;
-        //     background-color: transparent;
-        //     top: 38px;
-        //     right: 0;
-        //     height: 35px;
-        //     width: 35px;
-        //     // border-top-right-radius: 18px;
-        //     box-shadow: 0 -20px 0 0 #fff;
-        // }
     }
 }
 
@@ -189,7 +165,6 @@
     margin-top: 4rem;
     margin-right: 3rem;
     .collection-container {
-        // box-shadow: 2px 4px 4px 10px rgba(145, 35, 157, 0.2), 0 6px 20px 0 #ab17d03e;
         box-shadow: 2px 4px 4px 10px rgba(172, 165, 172, 0.288), 0 6px 20px 0 #726b733e;
         display: flex;
         height: 75vh;
@@ -200,20 +175,30 @@
         .collection-header {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: start;
             align-items: center;
             margin: 10px 0 0px 0;
             
             .collection-name {
-                margin: 0 25px 0 25px;
+                margin: 0 0 0 25px;
                 text-align: start;
                 font-size: x-large;
                 font-weight: 600;
-                // color: #fff;
                 color:#151313;
             }
+            .dates {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin: 0 0 0 auto;
+                p {
+                    margin: 0px 25px 0px 25px;
+                    padding: 0;
+                    color: rgb(100, 95, 95);
+                }
+            }
             .edit-collection-button {
-                margin: 0 10px 0 auto;
+                margin: 0 10px 0 10px;
             }
             .delete-collection-button {
                 margin: 0 10px 0 0;
@@ -225,14 +210,15 @@
             border-bottom-color: #ababab;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: row;
             p {
                 overflow: hidden;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 1;
-                margin: 0 150px 10px 25px;
+                margin: 0 0px 10px 25px;
                 text-align: start;
-                // color:#bab6b6;
                 color:#000000;
             }
         }
@@ -263,7 +249,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            // color:#bab6b6;
             color:#040303;
        }
        .favorite-button {
@@ -278,12 +263,22 @@
            }
        }
    }
+   .resource-dates {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        p {
+            font-weight: 600;
+            margin: 5px 0 5px 0;
+            color:rgb(100, 95, 95);
+            font-size: small;
+        }
+   }
    .card-description {
         overflow: hidden;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        // color:#9b9898;
         color:#474343;
         margin-bottom: 3px;
    }
@@ -305,6 +300,10 @@
         height: 28vh;
         border-radius: 15px;
         background-color: #fff;
+    }
+    .spinner-img-alt {
+        font-size: 3rem;
+        padding: 6rem 6rem 6rem 10.5rem;
     }
 }
 
@@ -353,8 +352,6 @@
     position: relative;
 	margin: 5px;
 	text-align: left;
-	// background: #ba7dba58;
-	// box-shadow: 0px 0px 5px 5px rgba(87, 24, 110, 0.138);
 	background: #d4cfcf17;
 	box-shadow: 0px 0px 5px 5px rgba(103, 102, 104, 0.138);
     width: 100%;
@@ -405,13 +402,10 @@
 	border: none;
 }
 .carousel-indicators div {	
-	// background: #555;	
-	// background: #873434;
     background: #ababab;
     cursor: pointer;
 }
-.carousel-indicators div.active {	
-	// background: #ababab;
+.carousel-indicators div.active {
 	background: #555;	
 }
 
@@ -460,4 +454,16 @@ ul {
     p {
         font-size: large;
     }
+}
+
+.see-more {
+        background:none;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 10px;
+        padding: 0;
+        font-weight: bold;
+        color:#6d44b8;
+        outline: none;
+        align-self:last baseline;
 }

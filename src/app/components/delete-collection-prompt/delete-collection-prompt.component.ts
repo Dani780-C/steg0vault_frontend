@@ -43,12 +43,9 @@ export class DeleteCollectionPromptComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Success: ', detail: 'The collection has been removed.' });
         this.appService.setCollDeleted(true);
         this.onCloseDialog();
-        // console.log(result);
       },
       error: err => {
         this.messageService.add({ severity: 'error', summary: 'Failed: ', detail: 'The collection has not been removed.' });
-        // console.log("error ");
-        // console.log(err);
       }
     });;
   }

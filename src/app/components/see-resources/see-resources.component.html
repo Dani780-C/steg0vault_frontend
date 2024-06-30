@@ -1,0 +1,23 @@
+<div class="container" *ngIf="imageIds.length > 0">
+
+    <div class="images">
+        <div *ngFor="let image of images">
+            <img *ngIf="image !== ''" [src]='image' alt="Image">
+        </div>
+    </div>
+
+    <div class="paginator">
+        <mat-paginator [length]="imageIds.length"
+            [pageSize]="6"
+            (page)="onPaginateChange($event)"
+            aria-label="Select page">
+        </mat-paginator>
+    </div>
+
+</div>
+
+<div class="no-images" *ngIf="imageIds.length === 0">
+    <p>
+        This user does not have uploaded images!
+    </p>
+</div>

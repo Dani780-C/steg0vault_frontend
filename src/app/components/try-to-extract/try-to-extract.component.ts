@@ -21,6 +21,7 @@ export class TryToExtractComponent {
   myimage: string = '';
   displayMessage: "ok" | "error" | "none" = "none";
   msg: string = '';
+  algName: string = ''
 
   firstFormGroup = this._formBuilder.group({
     fileName: ['', Validators.required]
@@ -53,16 +54,21 @@ export class TryToExtractComponent {
     if (this.file) {
       const postResource : PostResource = {
         resourceDTO: {
+          id: 0,
           name: '',
           type: this.file.type,
           description: '',
           algorithm: '',
           saved: false,
-          imageBytes: this.myimage
+          imageBytes: this.myimage,
+          createdAt: '',
+          modifiedAt: ''
         },
         collectionDTO: {
           name: '',
-          description: ''
+          description: '',
+          createdAt: '',
+          modifiedAt: ''
         },
         secretToEmbed: ''
       };
@@ -73,12 +79,13 @@ export class TryToExtractComponent {
       this.resourceService.tryToExtract(postResource).subscribe({
         next: (data) => {
           this.status = "success";
-          console.log(data);
           this.msg = data.message
           if(data.algorithm === 'NONE')
               this.displayMessage = 'error'
-          else
+          else {
               this.displayMessage = 'ok'
+              this.algName = data.algorithm
+          }
         },
         error: (error: any) => {
           this.displayMessage = 'error';

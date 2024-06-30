@@ -1,13 +1,9 @@
-<!-- <div *ngIf="status === 'pressed'" class="spinner">
-    <p><i class="fa-solid fa-spinner fa-spin fa-4x"></i></p>
-</div> -->
+
 <div class="container">
     <div class="register-container">
         <div class="register-card">
             <div class="register-card-body">
                 <div class="header-item">
-                    <!-- <fa-icon *ngIf="status !== 'pressed'" [icon]="faSignUp" class="fa-3x"></fa-icon> -->
-                    <!-- <fa-icon class="fa-solid fa-spinner fa-spin fa-3x"></fa-icon> -->
                     <section [ngSwitch]="status">
                         <fa-icon *ngSwitchCase="'pressed'" class="fa-solid fa-spinner fa-spin fa-3x"></fa-icon>
                         <fa-icon *ngSwitchCase="'success'" class="fa-solid fa-check fa-beat fa-3x"></fa-icon>
@@ -23,7 +19,7 @@
                     details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                 <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
-                        <label for="firstname">First name</label>
+                        <label for="firstname">First name  <span *ngIf="(firstname.value?.length || 0) <= 30" style="color:green;">{{firstname.value?.length}}/30</span> <span *ngIf="(firstname.value?.length || 0) > 30" style="color:red;">{{firstname.value?.length}}/30</span> </label>
                         <input type="firstName" id="firstname" placeholder="First name" class="form-control" formControlName="firstName"
                             name="firstname" />
                         <small *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="block p-error">
@@ -32,7 +28,7 @@
                         </small>
                     </div>
                     <div class="form-group">
-                        <label for="lastname">Last name</label>
+                        <label for="lastname">Last name  <span *ngIf="(lastname.value?.length || 0) <= 30" style="color:green;">{{lastname.value?.length}}/30</span> <span *ngIf="(lastname.value?.length || 0) > 30" style="color:red;">{{lastname.value?.length}}/30</span> </label>
                         <input type="lastName" id="lastname" placeholder="Last name" class="form-control" formControlName="lastName"
                             name="lastname" />
                         <small *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="block p-error">
@@ -68,7 +64,7 @@
                             <small *ngIf="password.value !== null && password.value.length >= 8" style="margin: 0; color: green;"><i class="fa-solid fa-check"></i> at least 8 characters<br></small> 
                         </div>
                     </div>
-                    <input type="submit" class="register-button" value="Register" [disabled]="registerForm.invalid">
+                    <input type="submit" class="register-button" value="Register" [disabled]="registerForm.invalid || clicked === false || validNames() === false">
                 </form>
             </div>
             <div class="register-card-footer">
@@ -77,14 +73,29 @@
         </div>
         <div class="login-image">
             <div class="welcome-image">
+
                 <img src="../../../assets/images-register.jpeg" alt="image">
+                <div class="conditions">
+                    <h1>Terms</h1>
+                    <p>By uploading images, you consent to the <span style="font-weight: bold;"> review and <br> 
+                        monitoring </span> of your uploaded images by the <br> 
+                        administrators to ensure compliance <br>
+                        with legal and policy standards.</p>
+                    <p>Uploading illegal or prohibited content may result <br>
+                        in immediate <span style="font-weight: bold;"> suspension or termination </span><br>
+                        of your account and potential legal action.</p>
+                    <p>While administrators will review uploaded images, <br>
+                        your privacy is important to us. Images will only <br>
+                        be accessed for the purpose of ensuring compliance <br>
+                         with these terms and relevant laws.</p>
+                    <div style="margin: 12px 0; align-content: center; align-items: center;">
+                        <mat-checkbox style="font-size: larger;" (click)="switchCheckbox()">Accept terms</mat-checkbox>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!-- <div class="spinner" *ngIf="status === 'pressed'">
-    <p><i class="fa-solid fa-spinner fa-spin fa-4x"></i><br>Creating...</p>
-</div> -->
 <p-toast 
     [showTransformOptions]="'translateY(100%)'" 
     [showTransitionOptions]="'500ms'" 
@@ -92,42 +103,3 @@
     [showTransformOptions]="'translateX(100%)'"
     [life]="5000">
 </p-toast>
-<!-- <div class="container">
-    <div class="register-container">
-        <div class="card my-auto shadow">
-            <div class="card-body px-5">
-                <div class="text-center">
-                    <fa-icon [icon]="faSignUp" class="fa-3x"></fa-icon>
-                </div>
-                <div class="text-center">
-                    <h2>Welcome</h2>
-                </div>
-                <p style="color: lightslategray; text-align: center;">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please enter your register
-                    details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                    <div class="form-group">
-                        <input type="firstname" id="firstname" placeholder="First name" class="form-control" formControlName="firstname"
-                            name="firstname" />
-                    </div>
-                    <div class="form-group">
-                        <input type="lastname" id="lastname" placeholder="Last name" class="form-control" formControlName="lastname"
-                            name="lastname" />
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" placeholder="Email" class="form-control" formControlName="email"
-                            name="email" />
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password" placeholder="Password" class="form-control"
-                            formControlName="password" name="password" />
-                    </div>
-                    <input type="submit" class="btn btn-primary w-100" value="Register" name="">
-                </form>
-            </div>
-            <div class="card-footer text-right">
-                <small><a routerLink="../login">I already have an account</a></small>
-            </div>
-        </div>
-    </div>
-</div> -->

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { PostResource } from 'src/app/interfaces/post-resource';
 import { UpdateResource } from 'src/app/interfaces/updateResource';
 import { environment } from 'src/environments/environment';
+import { UpdateCollection } from 'src/app/interfaces/update-collection';
 
 
 @Injectable({
@@ -36,6 +37,19 @@ export class ResourceService {
     }; 
     return this.httpClient.get('http://localhost:8080/api/v1/collection' + '?collectionName=' + encodeURIComponent(collectionName || "null"), this.httpOptions );
   }
+
+  getAllAlgorithms(): Observable<any> {
+    this.httpOptions = {
+      headers: new HttpHeaders(
+        { 
+          'Authorization': 'Bearer ' + this.storageService.getToken(), 
+          'Content-Type': 'application/json'
+        }
+      )
+    }; 
+    return this.httpClient.get('http://localhost:8080/api/v1/resource/algs/all', this.httpOptions );
+  }
+
 
   getAllCollections(): Observable<any> {
     this.httpOptions = {
@@ -106,7 +120,19 @@ export class ResourceService {
         }
       )
     }; 
-    return this.httpClient.patch(this.RESOURCE_API + 'update?collectionName=' + collName + '&resourceName=' + resName, updateResource, this.httpOptions);
+    return this.httpClient.patch(this.RESOURCE_API + 'update?collectionName=' + encodeURIComponent(collName) + '&resourceName=' + encodeURIComponent(resName), updateResource, this.httpOptions);
+  }
+
+  updateCollection(collName: string, updateColl: UpdateCollection): Observable<any> {
+    this.httpOptions = {
+      headers: new HttpHeaders(
+        { 
+          'Authorization': 'Bearer ' + this.storageService.getToken(), 
+          'Content-Type': 'application/json'
+        }
+      )
+    }; 
+    return this.httpClient.patch(this.RESOURCE_API + 'update/coll?collectionName=' + encodeURIComponent(collName), updateColl, this.httpOptions);
   }
 
   saveResource(collectionName: string, resourceName: string): Observable<any>  {
@@ -119,6 +145,18 @@ export class ResourceService {
       )
     }; 
     return this.httpClient.patch(this.RESOURCE_API + 'save?collectionName=' + encodeURIComponent(collectionName) + '&resourceName=' + encodeURIComponent(resourceName), null, this.httpOptions);  
+  }
+
+  getImage(collectionName: string, resourceName: string): Observable<any>  {
+    this.httpOptions = {
+      headers: new HttpHeaders(
+        { 
+          'Authorization': 'Bearer ' + this.storageService.getToken(), 
+          'Content-Type': 'application/json'
+        }
+      )
+    }; 
+    return this.httpClient.get(this.RESOURCE_API + 'get-image?collectionName=' + encodeURIComponent(collectionName) + '&resourceName=' + encodeURIComponent(resourceName), this.httpOptions);  
   }
 
   deleteResource(collName: string, resName: string): Observable<any> {

@@ -28,10 +28,18 @@ export class AuthService {
     return this.httpClient.post(this.AUTH_API + 'register', { firstName, lastName, email, password }, httpOptions );
   }
 
+  forgotPassword(mail: string | null): Observable<any> {
+    return this.httpClient.get('http://localhost:8080/api/v1/forgot-pass/request?mail='+mail, httpOptions );
+  }
+
+  resetPassword({ newPassword, retypedNewPassword, token }: any): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/api/v1/forgot-pass/reset-password', { newPassword, retypedNewPassword, token }, httpOptions );
+  }
+
   isLoggedIn(): boolean {
     if(this.storageService.getToken()) {
       return true;
     }
     return false;
   }
-}
+}  

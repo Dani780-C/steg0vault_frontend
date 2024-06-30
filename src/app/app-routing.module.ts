@@ -11,7 +11,22 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./components/user-account/user-account.module').then(m => m.UserAccountModule),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'USER'
+    }
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./components/admin/admin.module').then(m => m.AdminModule),
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./components/reset-password/reset-password.module').then(m => m.ResetPasswordModule),
   },
   {
     path: 'login',
