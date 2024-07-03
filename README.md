@@ -2,4 +2,5 @@
 #### Still in progress :)
 
 
-[Screencast from 2024-04-10 22-36-42.webm](https://github.com/Dani780-C/steg0vault_frontend/assets/79227896/214e0934-33c2-4eef-bf86-dcd4ff35e8c9)
+
+[Screencast from 2024-07-03 09-09-40.webm](https://github.com/Dani780-C/steg0vault_frontend/assets/79227896/b112058d-ba3f-4079-a581-57b8c1492f0f)
